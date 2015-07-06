@@ -5,6 +5,9 @@ var pause = false;
 
 var state_history = [];
 
+var previous_sprites_render = [];
+
+
 var state = {
   entities: [
     {
@@ -41,6 +44,9 @@ var state = {
       scripts: {
         rotate: {
           speed: 10,
+        },
+        move: {
+          dx: 10
         }
       }
     }
@@ -51,9 +57,13 @@ var state = {
 var scripts = {
   rotate: function(entity, data) {
     entity.rotation += data.speed;
+  },
+
+  move: function(entity, data) {
+    entity.x += data.dx;
+    entity.y += data.dy;
   }
 }
-
 
 
 function preload() {
@@ -91,8 +101,6 @@ function saveHistory(game_state_history, state_in_time) {
               }
             }
           }
-
-
       }
 
       return c;
@@ -112,7 +120,7 @@ function update() {
       entity._sprite.angle = -entity.rotation;
     } else {
       entity._sprite = game.add.sprite(entity.x, entity.y, entity.image);
-      
+
       entity._sprite.position.set(entity.x, entity.y);
       entity._sprite.scale.set(entity.scale_x, entity.scale_y);
       entity._sprite.anchor.setTo(entity.anchor_x, entity.anchor_y);
@@ -126,22 +134,50 @@ function update() {
       }
     }
 
-
   });
 
   if (!pause) {
     saveHistory(state_history, state);
   }
+
+
+
 }
 
+function restoreStateWithUndo(step) {
+  if (step > 0) {
+    state = state_history[step];
+  }
+}
 
 function undo() {
   state = state_history.pop();
 }
 
+function showSlider() {
+  slider.style.visibility = null;
+  slider.setAttribute('max', state_history.length);
+  slider.value = state_history.length;
+
+  slider.onmousemove = function(value) {
+    restoreStateWithUndo(this.value -1);
+  };
+}
+
+function hideSlider() {
+  slider.style.visibility = "hidden";
+}
 
 pauseButton.onclick = function() {
   pause = !pause;
+
+  if (pause) {
+    showSlider();
+    this.textContent = "Play";
+  } else {
+    hideSlider();
+    this.textContent = "Pause";
+  }
 };
 
 function render() {
