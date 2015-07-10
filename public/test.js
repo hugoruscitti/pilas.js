@@ -7,6 +7,31 @@ var state_history = [];
 
 var previous_sprites_render = [];
 
+var sprites = [];
+
+function add_sprite(sprite) {
+  var id = (0|Math.random()*9e6).toString(36);
+
+  sprites.push({id: id, sprite: sprite});
+
+  return id;
+}
+
+function get_sprite_by_id(id) {
+  var sprite = null;
+
+  for (var i=0; i<sprites.length; i++) {
+    var element = sprites[i];
+
+    if (element.id === id) {
+      return element.sprite;
+    }
+
+  }
+
+  throw new Error("No se encuentra el sprite con el ID " + id);
+}
+
 
 var state = {
   entities: [
@@ -113,18 +138,22 @@ function saveHistory(game_state_history, state_in_time) {
 function update() {
   state.entities.forEach(function(entity) {
 
-    if (entity._sprite) {
-      entity._sprite.position.set(entity.x, entity.y);
-      entity._sprite.scale.set(entity.scale_x, entity.scale_y);
-      entity._sprite.anchor.setTo(entity.anchor_x, entity.anchor_y);
-      entity._sprite.angle = -entity.rotation;
-    } else {
-      entity._sprite = game.add.sprite(entity.x, entity.y, entity.image);
+    if (entity.sprite_id) {
+      var sprite = get_sprite_by_id(entity.sprite_id);
 
-      entity._sprite.position.set(entity.x, entity.y);
-      entity._sprite.scale.set(entity.scale_x, entity.scale_y);
-      entity._sprite.anchor.setTo(entity.anchor_x, entity.anchor_y);
-      entity._sprite.angle = -entity.rotation;
+      sprite.position.set(entity.x, entity.y);
+      sprite.scale.set(entity.scale_x, entity.scale_y);
+      sprite.anchor.setTo(entity.anchor_x, entity.anchor_y);
+      sprite.angle = -entity.rotation;
+    } else {
+      var sprite = game.add.sprite(entity.x, entity.y, entity.image);
+      var sprite_id = add_sprite(sprite);
+      entity.sprite_id = sprite_id;
+
+      sprite.position.set(entity.x, entity.y);
+      sprite.scale.set(entity.scale_x, entity.scale_y);
+      sprite.anchor.setTo(entity.anchor_x, entity.anchor_y);
+      sprite.angle = -entity.rotation;
     }
 
     if (!pause) {
