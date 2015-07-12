@@ -1,5 +1,7 @@
 <html>
 <head>
+  <script type="text/javascript" src='phaser.js'></script>
+  <script type="text/javascript" src='js/test.js'></script>
 </head>
 
 <body>
@@ -9,8 +11,11 @@
   <button id='pauseButton'>Pause</button>
   <input type="range" style='visibility: hidden' id="slider" min=0 max=100></input>
 
-  <script type="text/javascript" src='phaser.js'></script>
-  <script type="text/javascript" src='test.js'></script>
+
+  <script type="text/javascript">
+    window.game = initGame('phaser-example');
+  </script>
+
 </body>
 
 </html>
