@@ -52,7 +52,7 @@ class Actores {
     };
 
     this.game.game_state.entities.push(entity);
-
+    return entity;
   }
 }
 
