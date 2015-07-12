@@ -46,22 +46,80 @@ class Actores {
       anchor_y: 0.5,
       scripts: {
         rotate: {
-          speed: 0,
+          speed: 0.5,
         }
       }
     };
+
+    entity.id = Math.ceil(Math.random() * 1000000000000);
 
     this.game.game_state.entities.push(entity);
     return entity;
   }
 }
 
+class GameHistory {
+  game: Game;
+  game_state_history: State[];
+  current_step: number;
+
+  constructor(game:Game) {
+    this.game = game;
+    this.game_state_history = [];
+    this.current_step = 0;
+  }
+
+  reset() {
+    this.game_state_history = [];
+    this.current_step = 0;
+  }
+
+  get_length() {
+    return this.game_state_history.length;
+  }
+
+  save(state: State) {
+    this.game_state_history.push(JSON.parse(JSON.stringify(state)));
+    this.current_step = this.game_state_history.length;
+  }
+
+  get_state_by_step(step: number) {
+    var total = this.get_length();
+
+    if (step < 0 || step >= total) {
+      throw new Error("No se puede recuperar el historial en el paso " + step)
+    }
+
+    return this.game_state_history[step];
+  }
+
+}
+
+class ActorProxy {
+  id:number;
+  game:Game;
+
+  constructor(game:Game, id:number) {
+    this.id = id;
+    this.game = game;
+  }
+
+  public set x(value: number) {
+    this.data.x = value;
+  }
+
+  public get data() {
+    return this.game.get_entity_by_id(this.id);
+  }
+
+}
+
 
 class Game {
   game: Phaser.Game;
   game_state: State;
-  game_state_history: State[];
-  pause: boolean = false;
+  game_history: GameHistory;
+  pause_enabled: boolean = false;
   sprites: SpriteCache[] = [];
   scripts: any;
   actores: Actores;
@@ -76,7 +134,8 @@ class Game {
     };
 
     this.game = new Phaser.Game(800, 600, Phaser.CANVAS, element_id, options);
-    this.game_state_history = [];
+    this.game_history = new GameHistory(this);
+
     this.game_state = {entities: []};
 
     this.load_scripts();
@@ -105,28 +164,24 @@ class Game {
   }
 
   create() {
-      var entity = {
-        id: 12,
-        name: "humo",
-        image: 'humo',
-        x: 100,
-        y: 100,
-        scale_x: 1,
-        scale_y: 1,
-        rotation: 0,
-        anchor_x: 0.5,
-        anchor_y: 0.5,
-        scripts: {
-          rotate: {
-            speed: 0,
-          }
-        }
-      };
+      this.actores.Actor(400, 100);
+  }
 
-      this.game_state.entities.push(entity);
+  pause() {
+    this.pause_enabled = true;
+  }
 
+  unpause() {
+    this.pause_enabled = false;
+    this.game_history.reset();
+  }
 
-      this.actores.Actor();
+  toggle_pause() {
+    if (this.pause_enabled) {
+      this.unpause();
+    } else {
+      this.pause();
+    }
   }
 
   update() {
@@ -143,6 +198,7 @@ class Game {
       } else {
         var sprite: Phaser.Sprite = this.game.add.sprite(entity.x, entity.y, entity.image);
         var sprite_id = this.add_sprite(sprite);
+
         entity.sprite_id = sprite_id;
 
         sprite.position.set(entity.x, entity.y);
@@ -151,7 +207,7 @@ class Game {
         sprite.angle = -entity.rotation;
       }
 
-      if (!this.pause) {
+      if (!this.pause_enabled) {
         // Actualiza las entidades.
         for (var name in entity.scripts) {
           this.apply_script(entity, name, entity.scripts[name]);
@@ -160,14 +216,21 @@ class Game {
 
     });
 
-    if (!this.pause) {
-      this.save_history(this.game_state);
+    if (!this.pause_enabled) {
+      this.game_history.save(this.game_state);
     }
 
   }
 
   render() {
   	this.game.debug.inputInfo(32, 32);
+  }
+
+  get_entity_by_id(id: number) {
+    var entities = this.ls();
+    var index = entities.indexOf(id);
+
+    return this.game_state.entities[index];
   }
 
   private add_sprite(sprite:Phaser.Sprite) {
@@ -205,150 +268,29 @@ class Game {
     return this.scripts[script_name];
   }
 
-  private save_history(state: State) {
-    this.game_state_history.push(JSON.parse(JSON.stringify(state)));
+  restore(step: number) {
+    var state = this.game_history.get_state_by_step(step);
+    this.transition_to_step(state);
   }
+
+  ls() {
+    return this.game_state.entities.map((e) => {
+      return(e.id)
+    });
+  }
+
+  getActorProxy(id:number) {
+    return new ActorProxy(this, id);
+  }
+
+  private transition_to_step(state: State) {
+    var current_state = this.game_state;
+    this.game_state = state;
+  }
+
 }
-
-
-
 
 
 function initGame(element_id: string) {
   return new Game(element_id);
-}
-
-
-function old() {
-
-  var state_history: any = [];
-  var previous_sprites_render: any = [];
-
-
-
-
-
-
-  var state = {
-    entities: [
-      {
-        id: 12,
-        name: "humo",
-        image: 'humo',
-        x: 100,
-        y: 100,
-        scale_x: 1,
-        scale_y: 1,
-        rotation: 0,
-        anchor_x: 0.5,
-        anchor_y: 0.5,
-        scripts: {
-          rotate: {
-            speed: 1,
-          }
-        }
-      },
-
-      {
-        id: 123,
-        name: "humo",
-        image: 'humo',
-        x: 200,
-        y: 200,
-        scale_x: 1,
-        scale_y: 1,
-        rotation: 0,
-        anchor_x: 0.5,
-        anchor_y: 0.5,
-        scripts: {
-          rotate: {
-            speed: 10,
-          },
-          move: {
-            dx: 10
-          }
-        }
-      }
-    ]
-  }
-
-
-
-
-
-
-  function saveHistory(game_state_history:any, state_in_time:any) {
-    function JSONClone(o:any) {
-      if(!o || 'object' !== typeof o)  {
-        return o;
-      }
-      var c = 'function' === typeof o.pop ? [] : {};
-        var p:any, v:any;
-        for(p in o) {
-          if (p.toString().indexOf('_') === 0) {
-            continue;
-            } else {
-
-              if(o.hasOwnProperty(p)) {
-                v = o[p];
-
-                if(v && 'object' === typeof v) {
-                  c[p] = JSONClone(v);
-                }
-                else {
-                  c[p] = v;
-                }
-              }
-            }
-        }
-
-        return c;
-    }
-
-
-    game_state_history.push(JSONClone(state_in_time));
-  }
-
-
-
-  function restoreStateWithUndo(step:number) {
-    if (step > 0) {
-      state = state_history[step];
-    }
-  }
-
-  function undo() {
-    state = state_history.pop();
-  }
-  /*
-
-  function showSlider() {
-    slider.style.visibility = null;
-    slider.setAttribute('max', state_history.length);
-    slider.value = state_history.length;
-
-    slider.onmousemove = function(value) {
-      restoreStateWithUndo(this.value -1);
-    };
-  }
-
-  function hideSlider() {
-    slider.style.visibility = "hidden";
-  }
-
-  pauseButton.onclick = function() {
-    pause = !pause;
-
-    if (pause) {
-      showSlider();
-      this.textContent = "Play";
-    } else {
-      hideSlider();
-      this.textContent = "Pause";
-    }
-  };
-  */
-
-
-
 }

@@ -5,15 +5,51 @@
 </head>
 
 <body>
+  <input type="range" id="slider" value="">
+  <button type="button" id="pauseButton">Pause</button>
 
   <div id="phaser-example"></div>
 
   <button id='pauseButton'>Pause</button>
   <input type="range" style='visibility: hidden' id="slider" min=0 max=100></input>
 
-
   <script type="text/javascript">
     window.game = initGame('phaser-example');
+
+    var slider = document.getElementById('slider');
+    var pauseButton = document.getElementById('pauseButton');
+    hideSlider();
+
+    function showSlider() {
+      slider.style.visibility = null;
+      slider.setAttribute('max', game.game_history.get_length() -1);
+      slider.value = game.game_history.get_length();
+
+      slider.onmousemove = function(value) {
+        game.restore(this.value);
+      };
+
+      slider.onchange = function(value) {
+        game.restore(this.value);
+      }
+    }
+
+    function hideSlider() {
+      slider.style.visibility = "hidden";
+    }
+
+    pauseButton.onclick = function() {
+      game.toggle_pause();
+
+      if (game.pause_enabled) {
+        showSlider();
+        this.textContent = "Play";
+      } else {
+        hideSlider();
+        this.textContent = "Pause";
+      }
+    };
+
   </script>
 
 </body>
