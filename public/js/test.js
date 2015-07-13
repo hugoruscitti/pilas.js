@@ -1,4 +1,13 @@
+var Utils;
+(function (Utils) {
+    function test() {
+        console.log('test');
+    }
+    Utils.test = test;
+})(Utils || (Utils = {}));
 /// <reference path="../phaser/typescript/phaser.d.ts"/>
+/// <reference path="utils.ts" />
+Utils.test();
 var Actores = (function () {
     function Actores(game) {
         this.game = game;

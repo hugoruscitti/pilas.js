@@ -19,7 +19,7 @@ module.exports = function (grunt) {
                 src: ['src/**/*.ts'],
                 dest: 'public/js/test.js',
                 options: {
-                    module: 'amd',
+                    module: 'CommonJS',
                     target: 'es5'
                 }
             }

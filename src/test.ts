@@ -1,5 +1,9 @@
 /// <reference path="../phaser/typescript/phaser.d.ts"/>
 
+/// <reference path="utils.ts" />
+
+Utils.test();
+
 interface Entity {
   name: string,
   id: number,

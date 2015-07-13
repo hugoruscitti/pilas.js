@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "amd",
+        "module": "CommonJS",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
@@ -8,6 +8,6 @@
         "sourceMap": true
     },
     "files": [
-        "src/test.ts"
+        "src/**/*.ts"
     ]
 }
