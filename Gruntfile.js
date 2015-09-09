@@ -3,6 +3,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-open');
+    grunt.loadNpmTasks('grunt-contrib-qunit');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -17,19 +18,23 @@ module.exports = function (grunt) {
         typescript: {
             base: {
                 src: ['src/**/*.ts'],
-                dest: 'public/js/test.js',
+                dest: 'public/js/pilasengine.js',
                 options: {
                     module: 'CommonJS',
+                    removeComments: false,
                     target: 'es5'
                 }
             }
+        },
+        qunit: {
+          files: ['test/index.html']
         },
         watch: {
             options: {
               livereload: true,
             },
-            files: 'src/**/*.ts',
-            tasks: ['typescript']
+            files: ['src/**/*.ts', 'test/**', 'public/test.html'],
+            tasks: ['typescript', 'test']
         },
         open: {
             dev: {
@@ -38,6 +43,8 @@ module.exports = function (grunt) {
         }
     });
 
+
+    grunt.registerTask('test', ['qunit']);
     grunt.registerTask('default', ['connect', 'open', 'watch']);
 
 }

@@ -7,7 +7,12 @@
         "out": "public/js/test.js",
         "sourceMap": true
     },
-    "files": [
+    "filesGlob": [
         "src/**/*.ts"
+    ],
+    "files": [
+        "src/entidad.ts",
+        "src/pilasengine.ts",
+        "src/utils.ts"
     ]
 }

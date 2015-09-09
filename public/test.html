@@ -1,17 +1,19 @@
 <html>
+
 <head>
   <script type="text/javascript" src='phaser.js'></script>
-  <script type="text/javascript" src='js/test.js'></script>
+  <script type="text/javascript" src='js/pilasengine.js'></script>
 </head>
 
 <body>
+
   <input type="range" id="slider" value="">
   <button type="button" id="pauseButton">Pause</button>
 
-  <div id="phaser-example"></div>
+  <div id="elementoCanvas"></div>
 
   <script type="text/javascript">
-    window.game = initGame('phaser-example');
+    window.pilas = pilasengine.iniciar('elementoCanvas');
 
     var slider = document.getElementById('slider');
     var pauseButton = document.getElementById('pauseButton');
@@ -19,26 +21,26 @@
 
     function showSlider() {
       slider.style.visibility = null;
-      slider.setAttribute('max', game.game_history.get_length() -1);
-      slider.value = game.game_history.get_length();
+      slider.setAttribute('max', pilas.game_history.get_length() -1);
+      slider.value = pilas.game_history.get_length();
 
       slider.onmousemove = function(value) {
-        game.restore(this.value);
+        pilas.restore(this.value);
       };
 
       slider.onchange = function(value) {
-        game.restore(this.value);
+        pilas.restore(this.value);
       }
     }
 
     function hideSlider() {
-      slider.style.visibility = "hidden";
+      //slider.style.visibility = "hidden";
     }
 
     pauseButton.onclick = function() {
-      game.toggle_pause();
+      pilas.toggle_pause();
 
-      if (game.pause_enabled) {
+      if (pilas.game_enabled) {
         showSlider();
         this.textContent = "Play";
       } else {

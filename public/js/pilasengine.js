@@ -7,6 +7,7 @@ var Utils;
 })(Utils || (Utils = {}));
 /// <reference path="../phaser/typescript/phaser.d.ts"/>
 /// <reference path="utils.ts" />
+/// <reference path="entidad.ts" />
 Utils.test();
 var Actores = (function () {
     function Actores(game) {
@@ -215,6 +216,19 @@ var Game = (function () {
     };
     return Game;
 })();
-function initGame(element_id) {
-    return new Game(element_id);
-}
+var pilasengine = {
+    /**
+     * Escape the given `html`.
+     *
+     * @example
+     *     utils.escape('<script></script>')
+     *     // => '&lt;script&gt;&lt;/script&gt;'
+     *
+     * @param {String} html string to be escaped
+     * @return {String} escaped html
+     * @api public
+     */
+    iniciar: function (element_id) {
+        return new Game(element_id);
+    }
+};

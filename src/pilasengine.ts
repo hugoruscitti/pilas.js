@@ -1,23 +1,9 @@
 /// <reference path="../phaser/typescript/phaser.d.ts"/>
-
 /// <reference path="utils.ts" />
+/// <reference path="entidad.ts" />
 
 Utils.test();
 
-interface Entity {
-  name: string,
-  id: number,
-  x: number,
-  y: number,
-  sprite_id?: string,
-  scale_x: number,
-  scale_y: number,
-  rotation: number,
-  anchor_x: number,
-  anchor_y: number,
-  image: string,
-  scripts?: any
-}
 
 interface State {
   entities: Entity[],
@@ -294,7 +280,21 @@ class Game {
 
 }
 
+var pilasengine = {
 
-function initGame(element_id: string) {
-  return new Game(element_id);
+
+/**
+ * Escape the given `html`.
+ *
+ * @example
+ *     utils.escape('<script></script>')
+ *     // => '&lt;script&gt;&lt;/script&gt;'
+ *
+ * @param {String} html string to be escaped
+ * @return {String} escaped html
+ * @api public
+ */
+  iniciar: function(element_id: string) {
+    return new Game(element_id);
+  }
 }
