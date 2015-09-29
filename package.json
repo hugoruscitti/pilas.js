@@ -27,6 +27,8 @@
   "devDependencies": {
     "dox": "^0.8.0",
     "grunt-contrib-qunit": "^0.7.0",
-    "qunitjs": "^1.19.0"
+    "grunt-typedoc": "^0.2.3",
+    "qunitjs": "^1.19.0",
+    "typedoc": "^0.3.11"
   }
 }

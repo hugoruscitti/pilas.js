@@ -6,6 +6,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-qunit');
 
     grunt.initConfig({
+        typedoc: {
+            build: {
+                options: {
+                    module: 'commonjs',
+                    out: './docs',
+                    name: 'super-editor-reactivo',
+                    target: 'es5'
+                },
+                src: ['./src/**/*']
+            }
+        },
         pkg: grunt.file.readJSON('package.json'),
         connect: {
             server: {
@@ -44,7 +55,8 @@ module.exports = function (grunt) {
     });
 
 
+    grunt.loadNpmTasks('grunt-typedoc');
     grunt.registerTask('test', ['qunit']);
-    grunt.registerTask('default', ['connect', 'open', 'watch']);
+    grunt.registerTask('default', ['connect', 'typedoc', 'open', 'watch']);
 
 }
