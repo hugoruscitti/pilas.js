@@ -28,7 +28,7 @@ iniciar:
 version:
 	# patch || minor
 	@bumpversion patch --current-version ${VERSION} Makefile --list
-	make build
+	#make build
 	@echo "Es recomendable escribir el comando que genera los tags y sube todo a github:"
 	@echo ""
 	@echo "make subir_version"
