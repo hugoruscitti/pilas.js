@@ -1,0 +1,17 @@
+  * release 0.0.1
+  * Arreglo menor.
+  * mejorando readme.
+  * modificando acceso al sub-modulo de phaser, para usar https
+  * arreglo menor.
+  * agregando motor de documentacion.
+  * instalando dox.
+  * Implementando textos y comenzando a refactorizar.
+  * Agregando posibilidad de modularizar.
+  * Modularizando e implementando el historial.
+  * arreglo menor.
+  * Implementando typescript y livereload.
+  * reparando el redibujado de los sprites.
+  * actualizacion.
+  * actualizando y creando el primer ejemplo de pausa y la operacion undo.
+  * commit inicial.
+  * Initial commit
