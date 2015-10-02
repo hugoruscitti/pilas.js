@@ -14,6 +14,7 @@ comandos:
 	@echo "  ${Y}Para desarrolladores${N}"
 	@echo ""
 	@echo "    ${G}iniciar${N}         Instala dependencias."
+	@echo "    ${G}full${N}            Compila y ejecuta el código de prueba en tiempo real."
 	@echo ""
 	@echo "  ${Y}Para distribuir${N}"
 	@echo ""
@@ -24,6 +25,9 @@ comandos:
 iniciar:
 	npm install
 	git submodule update --init
+
+full:
+	@grunt
 
 version:
 	# patch || minor
