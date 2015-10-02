@@ -3,9 +3,7 @@ test('Puede inicializar y crear actores', function(assert) {
   expect(0);
   done();
 
-  /*
-  pilas = new Pilas();
-  pilas.iniciar({ancho: 320, alto: 240, data_path: '../public/data'});
+  var pilas = pilasengine.iniciar({ancho: 320, alto: 240, data_path: '../public/data'});
 
   pilas.onready = function() {
       var fondo = new pilas.fondos.Plano();
@@ -17,5 +15,4 @@ test('Puede inicializar y crear actores', function(assert) {
   };
 
   pilas.ejecutar();
-  */
 });

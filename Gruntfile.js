@@ -11,7 +11,6 @@ module.exports = function (grunt) {
                 options: {
                     module: 'commonjs',
                     out: './docs',
-                    theme: "minimal",
                     name: 'super-editor-reactivo',
                     target: 'es5'
                 },

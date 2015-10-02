@@ -15,6 +15,8 @@ comandos:
 	@echo ""
 	@echo "    ${G}iniciar${N}         Instala dependencias."
 	@echo "    ${G}full${N}            Compila y ejecuta el código de prueba en tiempo real."
+	@echo "    ${G}test${N}            Ejecuta los tests de unidad."
+	@echo "    ${G}docs${N}            Ejecuta los tests de unidad."
 	@echo ""
 	@echo "  ${Y}Para distribuir${N}"
 	@echo ""
@@ -53,3 +55,12 @@ subir_version:
 changelog:
 	@git log `git describe --tags --abbrev=0` --pretty=format:"  * %s" > CHANGELOG.txt
 	@echo "Generando el archivo CHANGELOG.txt"
+
+
+test:
+	@grunt qunit
+
+docs:
+	grunt typedoc
+
+.PHONY: docs

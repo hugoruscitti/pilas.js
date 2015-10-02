@@ -14,12 +14,17 @@ interface SpriteCache {
   sprite: Phaser.Sprite,
 }
 
+interface OpcionesIniciar {
+  data_path: string;
+}
+
 
 class Actores {
   game: Game;
 
   constructor(game: Game) {
     this.game = game;
+
   }
 
   Actor(x:number=0, y:number=0) {
@@ -114,7 +119,7 @@ class Game {
   scripts: any;
   actores: Actores;
 
-  constructor(element_id:string) {
+  constructor(element_id:string, opciones: OpcionesIniciar) {
 
     var options = {
       preload: this.preload.bind(this),
@@ -123,6 +128,7 @@ class Game {
       render: this.render.bind(this)
     };
 
+    this.opciones = opciones;
     this.game = new Phaser.Game(800, 600, Phaser.CANVAS, element_id, options);
     this.game_history = new GameHistory(this);
 
@@ -294,7 +300,7 @@ var pilasengine = {
  * @return {String} escaped html
  * @api public
  */
-  iniciar: function(element_id: string) {
+  iniciar: function(element_id: string, opciones: OpcionesIniciar) {
     return new Game(element_id);
   }
 }
