@@ -20,9 +20,9 @@ interface OpcionesIniciar {
 
 
 class Actores {
-  game: Game;
+  game: Pilas;
 
-  constructor(game: Game) {
+  constructor(game: Pilas) {
     this.game = game;
 
   }
@@ -54,11 +54,11 @@ class Actores {
 }
 
 class GameHistory {
-  game: Game;
+  game: Pilas;
   game_state_history: State[];
   current_step: number;
 
-  constructor(game:Game) {
+  constructor(game:Pilas) {
     this.game = game;
     this.game_state_history = [];
     this.current_step = 0;
@@ -92,9 +92,9 @@ class GameHistory {
 
 class ActorProxy {
   id:number;
-  game:Game;
+  game:Pilas;
 
-  constructor(game:Game, id:number) {
+  constructor(game:Pilas, id:number) {
     this.id = id;
     this.game = game;
   }
@@ -110,7 +110,7 @@ class ActorProxy {
 }
 
 
-class Game {
+class Pilas {
   game: Phaser.Game;
   game_state: State;
   game_history: GameHistory;
@@ -118,8 +118,9 @@ class Game {
   sprites: SpriteCache[] = [];
   scripts: any;
   actores: Actores;
+  opciones: OpcionesIniciar;
 
-  constructor(element_id:string, opciones: OpcionesIniciar) {
+  constructor(id_elemento_html:string, opciones: OpcionesIniciar) {
 
     var options = {
       preload: this.preload.bind(this),
@@ -129,7 +130,7 @@ class Game {
     };
 
     this.opciones = opciones;
-    this.game = new Phaser.Game(800, 600, Phaser.CANVAS, element_id, options);
+    this.game = new Phaser.Game(800, 600, Phaser.CANVAS, id_elemento_html, options);
     this.game_history = new GameHistory(this);
 
     this.game_state = {entities: []};
@@ -151,10 +152,33 @@ class Game {
       }
     }
 
+  private cargar_imagen(identificador: string, archivo:string) {
+    var path = this.join(this.opciones.data_path, archivo);
+    this.game.load.image(identificador, path);
+  }
+
+  /**
+   * Concatena dos rutas de manera similar a la función os.path.join
+   */  
+  private join(a:string, b:string) {
+    var path = [a, b].map(function (i) {
+      return i.replace(/(^\/|\/$)/, '');
+    }).join('/');
+    
+    return path;
+  }
+  
+  
+  /**
+   * Concatena dos rutas de manera similar a la función os.path.join
+   */  
+  ejecutar() {
+    console.log("llamando a pilas.ejecutar() ...");  
+  }
 
   preload() {
-    this.game.load.image('humo', 'data/humo.png');
-    this.game.load.image('sin_imagen', 'data/sin_imagen.png');
+    this.cargar_imagen('humo', 'humo.png');
+    this.cargar_imagen('sin_imagen', 'sin_imagen.png');
 
     this.game.stage.disableVisibilityChange = true;
   }
@@ -290,17 +314,17 @@ var pilasengine = {
 
 
 /**
- * Escape the given `html`.
+ * Inicializa la biblioteca completa.
  *
  * @example
- *     utils.escape('<script></script>')
+ *     var pilas = pilasengine.iniciar("canvas_id");
  *     // => '&lt;script&gt;&lt;/script&gt;'
  *
- * @param {String} html string to be escaped
- * @return {String} escaped html
+ * @param {OpcionesIniciar} las opciones de inicialización.
+ * @return {Game} el objeto instanciado que representa el contexto del juego.
  * @api public
  */
-  iniciar: function(element_id: string, opciones: OpcionesIniciar) {
-    return new Game(element_id);
+  iniciar: function(element_id: string, opciones: OpcionesIniciar = {data_path: 'data'}) {
+    return new Pilas(element_id, opciones);
   }
 }

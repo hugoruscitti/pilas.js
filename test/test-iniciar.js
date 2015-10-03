@@ -3,7 +3,7 @@ test('Puede inicializar y crear actores', function(assert) {
   expect(0);
   done();
 
-  var pilas = pilasengine.iniciar({ancho: 320, alto: 240, data_path: '../public/data'});
+  var pilas = pilasengine.iniciar('elementoCanvas', {ancho: 320, alto: 240, data_path: '../public/data'});
 
   pilas.onready = function() {
       var fondo = new pilas.fondos.Plano();
