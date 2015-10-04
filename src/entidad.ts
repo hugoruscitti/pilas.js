@@ -1,13 +1,9 @@
 /**
- * Escape the given `html`.
+ * Representa una entidad dentro del motor, como un actor por ejemplo.
  *
- * @example
- *     utils.escape('<script></script>')
- *     // => '&lt;script&gt;&lt;/script&gt;'
+ * Esta interfaz no se utiliza de forma directa, sino que solamente sirve
+ * para agrupar todos los datos referidos a una entidad.
  *
- * @param {String} html string to be escaped
- * @return {String} escaped html
- * @api public
  */
 interface Entity {
   name: string,

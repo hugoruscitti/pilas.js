@@ -1,14 +1,5 @@
-var Utils;
-(function (Utils) {
-    function test() {
-        console.log('test');
-    }
-    Utils.test = test;
-})(Utils || (Utils = {}));
 /// <reference path="../phaser/typescript/phaser.d.ts"/>
-/// <reference path="utils.ts" />
 /// <reference path="entidad.ts" />
-Utils.test();
 var Actores = (function () {
     function Actores(game) {
         this.game = game;
@@ -131,7 +122,7 @@ var Pilas = (function () {
      * Concatena dos rutas de manera similar a la función os.path.join
      */
     Pilas.prototype.ejecutar = function () {
-        console.log("llamando a pilas.ejecutar() ...");
+        alert("asd");
     };
     Pilas.prototype.preload = function () {
         this.cargar_imagen('humo', 'humo.png');
@@ -236,6 +227,10 @@ var Pilas = (function () {
     };
     return Pilas;
 })();
+/**
+ * Representa el espacio de nombres para acceder a todos los componentes
+ * de pilasengine.
+ */
 var pilasengine = {
     /**
      * Inicializa la biblioteca completa.
@@ -253,3 +248,10 @@ var pilasengine = {
         return new Pilas(element_id, opciones);
     }
 };
+var Utils;
+(function (Utils) {
+    function test() {
+        console.log('test');
+    }
+    Utils.test = test;
+})(Utils || (Utils = {}));

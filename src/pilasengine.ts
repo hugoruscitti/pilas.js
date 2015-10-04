@@ -1,9 +1,5 @@
 /// <reference path="../phaser/typescript/phaser.d.ts"/>
-/// <reference path="utils.ts" />
 /// <reference path="entidad.ts" />
-
-Utils.test();
-
 
 interface State {
   entities: Entity[],
@@ -159,21 +155,21 @@ class Pilas {
 
   /**
    * Concatena dos rutas de manera similar a la función os.path.join
-   */  
+   */
   private join(a:string, b:string) {
     var path = [a, b].map(function (i) {
       return i.replace(/(^\/|\/$)/, '');
     }).join('/');
-    
+
     return path;
   }
-  
-  
+
+
   /**
    * Concatena dos rutas de manera similar a la función os.path.join
-   */  
+   */
   ejecutar() {
-    console.log("llamando a pilas.ejecutar() ...");  
+    alert("asd");
   }
 
   preload() {
@@ -310,8 +306,11 @@ class Pilas {
 
 }
 
+/**
+ * Representa el espacio de nombres para acceder a todos los componentes
+ * de pilasengine.
+ */
 var pilasengine = {
-
 
 /**
  * Inicializa la biblioteca completa.
