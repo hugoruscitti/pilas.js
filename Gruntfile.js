@@ -11,7 +11,7 @@ module.exports = function (grunt) {
                 options: {
                     module: 'commonjs',
                     out: './docs',
-                    name: 'super-editor-reactivo',
+                    name: 'pilasengine.js',
                     target: 'es5'
                 },
                 src: ['./src/**/*']
