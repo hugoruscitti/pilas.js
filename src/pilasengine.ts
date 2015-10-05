@@ -180,7 +180,7 @@ class Pilas {
   }
 
   create() {
-      this.actores.Actor(400, 100);
+      //this.actores.Actor(400, 100);
   }
 
   pause() {

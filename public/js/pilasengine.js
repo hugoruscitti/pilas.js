@@ -130,7 +130,7 @@ var Pilas = (function () {
         this.game.stage.disableVisibilityChange = true;
     };
     Pilas.prototype.create = function () {
-        this.actores.Actor(400, 100);
+        //this.actores.Actor(400, 100);
     };
     Pilas.prototype.pause = function () {
         this.pause_enabled = true;
