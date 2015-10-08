@@ -243,7 +243,6 @@ var Pilas = (function () {
         return (0 | Math.random() * 9e6).toString(36);
     };
     Pilas.prototype.get_sprite_by_id = function (id) {
-        var sprite = null;
         for (var i = 0; i < this.sprites.length; i++) {
             var element = this.sprites[i];
             if (element.id === id) {

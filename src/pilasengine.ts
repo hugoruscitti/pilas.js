@@ -6,14 +6,7 @@
 /// <reference path="actorProxy.ts" />
 /// <reference path="tipos.ts" />
 
-interface CustomEvent extends Event {
-    initCustomEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, detailArg: any): void;
-}
 
-declare var CustomEvent: {
-    prototype: CustomEvent;
-    new(typeArg: string, eventInitDict?: CustomEventInit): CustomEvent;
-}
 
 class Pilas {
   game: Phaser.Game;
@@ -65,14 +58,14 @@ class Pilas {
     this.scripts = {
       rotate: function(entity:Entity, data:any) {
         entity.rotation += data.speed;
-        },
+      },
 
-        move: function(entity:Entity, data:any) {
-          entity.x += data.dx;
-          entity.y += data.dy;
-        }
+      move: function(entity:Entity, data:any) {
+        entity.x += data.dx;
+        entity.y += data.dy;
       }
     }
+  }
 
   private cargar_imagen(identificador: string, archivo:string) {
     var path = this.join(this.opciones.data_path, archivo);
@@ -195,7 +188,6 @@ class Pilas {
   }
 
   private get_sprite_by_id(id:string) {
-    var sprite:Phaser.Sprite = null;
 
     for (var i=0; i<this.sprites.length; i++) {
       var element = this.sprites[i];
@@ -203,7 +195,6 @@ class Pilas {
       if (element.id === id) {
         return element.sprite;
       }
-
     }
 
     throw new Error("No se encuentra el sprite con el ID " + id);
