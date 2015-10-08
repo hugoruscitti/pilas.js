@@ -1,120 +1,32 @@
 /// <reference path="../phaser/typescript/phaser.d.ts"/>
 /// <reference path="entidad.ts" />
+/// <reference path="actores.ts" />
+/// <reference path="fondos.ts" />
+/// <reference path="historial.ts" />
+/// <reference path="actorProxy.ts" />
+/// <reference path="tipos.ts" />
 
-interface State {
-  entities: Entity[],
+interface CustomEvent extends Event {
+    initCustomEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, detailArg: any): void;
 }
 
-interface SpriteCache {
-  id: string,
-  sprite: Phaser.Sprite,
+declare var CustomEvent: {
+    prototype: CustomEvent;
+    new(typeArg: string, eventInitDict?: CustomEventInit): CustomEvent;
 }
-
-interface OpcionesIniciar {
-  data_path: string;
-}
-
-
-class Actores {
-  game: Pilas;
-
-  constructor(game: Pilas) {
-    this.game = game;
-
-  }
-
-  Actor(x:number=0, y:number=0) {
-    var entity = {
-      id: 12,
-      name: "sin_imagen",
-      image: 'sin_imagen',
-      x: x,
-      y: y,
-      scale_x: 1,
-      scale_y: 1,
-      rotation: 0,
-      anchor_x: 0.5,
-      anchor_y: 0.5,
-      scripts: {
-        rotate: {
-          speed: 0.5,
-        }
-      }
-    };
-
-    entity.id = Math.ceil(Math.random() * 1000000000000);
-
-    this.game.game_state.entities.push(entity);
-    return entity;
-  }
-}
-
-class GameHistory {
-  game: Pilas;
-  game_state_history: State[];
-  current_step: number;
-
-  constructor(game:Pilas) {
-    this.game = game;
-    this.game_state_history = [];
-    this.current_step = 0;
-  }
-
-  reset() {
-    this.game_state_history = [];
-    this.current_step = 0;
-  }
-
-  get_length() {
-    return this.game_state_history.length;
-  }
-
-  save(state: State) {
-    this.game_state_history.push(JSON.parse(JSON.stringify(state)));
-    this.current_step = this.game_state_history.length;
-  }
-
-  get_state_by_step(step: number) {
-    var total = this.get_length();
-
-    if (step < 0 || step >= total) {
-      throw new Error("No se puede recuperar el historial en el paso " + step)
-    }
-
-    return this.game_state_history[step];
-  }
-
-}
-
-class ActorProxy {
-  id:number;
-  game:Pilas;
-
-  constructor(game:Pilas, id:number) {
-    this.id = id;
-    this.game = game;
-  }
-
-  public set x(value: number) {
-    this.data.x = value;
-  }
-
-  public get data() {
-    return this.game.get_entity_by_id(this.id);
-  }
-
-}
-
 
 class Pilas {
   game: Phaser.Game;
   game_state: State;
-  game_history: GameHistory;
+  game_history: Historial;
   pause_enabled: boolean = false;
   sprites: SpriteCache[] = [];
   scripts: any;
   actores: Actores;
   opciones: OpcionesIniciar;
+  fondos: Fondos;
+
+  evento_inicia: any;
 
   constructor(id_elemento_html:string, opciones: OpcionesIniciar) {
 
@@ -125,14 +37,28 @@ class Pilas {
       render: this.render.bind(this)
     };
 
+    console.log(`%cpilasengine.js v${VERSION} | http://www.pilas-engine.com.ar`, 'color: blue');
+
     this.opciones = opciones;
     this.game = new Phaser.Game(800, 600, Phaser.CANVAS, id_elemento_html, options);
-    this.game_history = new GameHistory(this);
+    this.game_history = new Historial(this);
 
     this.game_state = {entities: []};
 
     this.load_scripts();
     this.actores = new Actores(this);
+    this.fondos = new Fondos(this);
+
+    this.evento_inicia = document.createEvent("Event");
+  }
+
+
+  cuando(nombre_evento: string, callback: CallBackEvento) {
+    if (nombre_evento === "inicia") {
+      window.addEventListener('evento_inicia', () => {callback()});
+    } else {
+      alert(`El evento ${nombre_evento} no está soportado.`);
+    }
   }
 
   private load_scripts() {
@@ -169,18 +95,18 @@ class Pilas {
    * Concatena dos rutas de manera similar a la función os.path.join
    */
   ejecutar() {
-    alert("asd");
   }
 
   preload() {
     this.cargar_imagen('humo', 'humo.png');
     this.cargar_imagen('sin_imagen', 'sin_imagen.png');
+    this.cargar_imagen('fondos/plano', 'fondos/plano.png');
 
     this.game.stage.disableVisibilityChange = true;
   }
 
   create() {
-      //this.actores.Actor(400, 100);
+    window.dispatchEvent(new CustomEvent("evento_inicia"));
   }
 
   pause() {
@@ -203,16 +129,23 @@ class Pilas {
   update() {
 
     this.game_state.entities.forEach((entity:Entity) => {
+      var sprite: any = null;
 
       if (entity.sprite_id) {
-        var sprite = this.get_sprite_by_id(entity.sprite_id);
+        sprite = this.get_sprite_by_id(entity.sprite_id);
 
         sprite.position.set(entity.x, entity.y);
         sprite.scale.set(entity.scale_x, entity.scale_y);
         sprite.anchor.setTo(entity.anchor_x, entity.anchor_y);
         sprite.angle = -entity.rotation;
       } else {
-        var sprite: Phaser.Sprite = this.game.add.sprite(entity.x, entity.y, entity.image);
+
+        if (entity['tiled']) {
+          sprite = this.game.add.tileSprite(entity.x, entity.y, 800, 600, entity.image);
+        } else {
+          sprite = this.game.add.sprite(entity.x, entity.y, entity.image);
+        }
+
         var sprite_id = this.add_sprite(sprite);
 
         entity.sprite_id = sprite_id;
@@ -312,18 +245,18 @@ class Pilas {
  */
 var pilasengine = {
 
-/**
- * Inicializa la biblioteca completa.
- *
- * @example
- *     var pilas = pilasengine.iniciar("canvas_id");
- *     // => '&lt;script&gt;&lt;/script&gt;'
- *
- * @param {OpcionesIniciar} las opciones de inicialización.
- * @return {Game} el objeto instanciado que representa el contexto del juego.
- * @api public
- */
+  /**
+   * Inicializa la biblioteca completa.
+   *
+   * @example
+   *     var pilas = pilasengine.iniciar("canvas_id");
+   *
+   * @param {OpcionesIniciar} las opciones de inicialización.
+   * @return {Game} el objeto instanciado que representa el contexto del juego.
+   * @api public
+   */
   iniciar: function(element_id: string, opciones: OpcionesIniciar = {data_path: 'data'}) {
     return new Pilas(element_id, opciones);
   }
+
 }

@@ -1,19 +1,29 @@
 <html>
 
 <head>
-  <script type="text/javascript" src='phaser.js'></script>
-  <script type="text/javascript" src='js/pilasengine.js'></script>
+  <script type="text/javascript" src='../js/phaser.js'></script>
+  <script type="text/javascript" src='../js/pilasengine.js'></script>
 </head>
 
 <body>
 
-  <input type="range" id="slider" value="">
-  <button type="button" id="pauseButton">Pause</button>
-
   <div id="elementoCanvas"></div>
 
   <script type="text/javascript">
-    window.pilas = pilasengine.iniciar('elementoCanvas');
+    var pilas = pilasengine.iniciar('elementoCanvas', {data_path: '../data'});
+
+    window.pilas = pilas;
+
+    pilas.cuando('inicia', function() {
+
+      pilas.fondos.Plano();
+
+      var actor = pilas.actores.Actor();
+      actor.x = 100;
+      actor.y = 100;
+
+    });
+
 
     /*
     var slider = document.getElementById('slider');

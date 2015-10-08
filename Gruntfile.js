@@ -44,19 +44,17 @@ module.exports = function (grunt) {
             options: {
               livereload: true,
             },
-            files: ['src/**/*.ts', 'test/**', 'public/test.html'],
+            files: ['src/**/*.ts', 'test/**', 'public/ejemplos/**'],
             tasks: ['typescript', 'test']
         },
         open: {
             dev: {
-                path: 'http://localhost:8080/public/test.html'
+                path: 'http://localhost:8080/public/ejemplos/'
             }
         }
     });
 
-
     grunt.loadNpmTasks('grunt-typedoc');
     grunt.registerTask('test', ['qunit']);
     grunt.registerTask('default', ['connect', 'typedoc', 'open', 'watch']);
-
 }

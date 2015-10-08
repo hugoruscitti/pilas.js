@@ -11,8 +11,14 @@
         "src/**/*.ts"
     ],
     "files": [
+        "src/actores.ts",
+        "src/actorProxy.ts",
         "src/entidad.ts",
+        "src/fondos.ts",
+        "src/historial.ts",
         "src/pilasengine.ts",
-        "src/utils.ts"
+        "src/tipos.ts",
+        "src/utils.ts",
+        "src/version.ts"
     ]
 }
