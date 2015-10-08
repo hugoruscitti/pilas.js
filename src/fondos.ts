@@ -1,9 +1,8 @@
 class Fondos {
   pilas: Pilas;
 
-  constructor(game: Pilas) {
-    this.pilas = game;
-
+  constructor(pilas: Pilas) {
+    this.pilas = pilas;
   }
 
   Plano(x:number=0, y:number=0) {

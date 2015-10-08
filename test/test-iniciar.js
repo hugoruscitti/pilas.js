@@ -1,18 +1,20 @@
 test('Puede inicializar y crear actores', function(assert) {
   var done = assert.async();
-  expect(0);
-  done();
+  expect(1);
 
   var pilas = pilasengine.iniciar('elementoCanvas', {ancho: 320, alto: 240, data_path: '../public/data'});
 
-  pilas.onready = function() {
-      var fondo = new pilas.fondos.Plano();
-      var bomba = new pilas.actores.Bomba();
+  pilas.cuando('inicia', function() {
+      var fondo = pilas.fondos.Plano();
+      //var bomba = pilas.actores.Bomba();
 
-      equal(bomba.x, 0, "La bomba está en la posición inicial");
-      equal(bomba.y, 0, "La bomba está en la posición inicial");
+      equal(fondo.x, 0, "La bomba está en la posición inicial");
+
       done();
-  };
+
+      //equal(bomba.x, 0, "La bomba está en la posición inicial");
+      //equal(bomba.y, 0, "La bomba está en la posición inicial");
+  });
 
   pilas.ejecutar();
 });

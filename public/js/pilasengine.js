@@ -50,8 +50,8 @@ var Actores = (function () {
     return Actores;
 })();
 var Fondos = (function () {
-    function Fondos(game) {
-        this.pilas = game;
+    function Fondos(pilas) {
+        this.pilas = pilas;
     }
     Fondos.prototype.Plano = function (x, y) {
         if (x === void 0) { x = 0; }

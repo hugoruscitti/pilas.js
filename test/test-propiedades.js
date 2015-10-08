@@ -1,8 +1,9 @@
 test('Puede cambiar propiedades de los actores', function(assert) {
-  var done = assert.async();
-  expect(1);
-  equal(0, 0, "asdasd");
-  done();
+  //var done = assert.async();
+  expect(2);
+  equal(0, 0, "Dos enteros con el mismo valor.");
+  equal(1, 1, "Dos numeros con el mismo valor.");
+  //done();
 
   /*
   expect(3);
