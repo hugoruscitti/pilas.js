@@ -9,6 +9,7 @@ interface SpriteCache {
 
 interface OpcionesIniciar {
   data_path: string;
+  en_test: boolean;
 }
 
 interface CallBackEvento {

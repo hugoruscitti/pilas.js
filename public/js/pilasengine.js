@@ -131,6 +131,7 @@ var Pilas = (function () {
     }
     Pilas.prototype.cuando = function (nombre_evento, callback) {
         if (nombre_evento === "inicia") {
+            this._cuando_inicia_callback = callback;
             window.addEventListener('evento_inicia', function () { callback(); });
         }
         else {
@@ -165,6 +166,9 @@ var Pilas = (function () {
      * Concatena dos rutas de manera similar a la función os.path.join
      */
     Pilas.prototype.ejecutar = function () {
+        if (this.opciones.en_test) {
+            this._cuando_inicia_callback.call(this);
+        }
     };
     Pilas.prototype.preload = function () {
         this.cargar_imagen('humo', 'humo.png');
@@ -291,7 +295,7 @@ var pilasengine = {
      * @api public
      */
     iniciar: function (element_id, opciones) {
-        if (opciones === void 0) { opciones = { data_path: 'data' }; }
+        if (opciones === void 0) { opciones = { data_path: 'data', en_test: false }; }
         return new Pilas(element_id, opciones);
     }
 };

@@ -11,8 +11,8 @@
         "src/**/*.ts"
     ],
     "files": [
-        "src/actores.ts",
         "src/actorProxy.ts",
+        "src/actores.ts",
         "src/entidad.ts",
         "src/fondos.ts",
         "src/historial.ts",

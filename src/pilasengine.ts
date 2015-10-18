@@ -20,6 +20,7 @@ class Pilas {
   fondos: Fondos;
 
   evento_inicia: any;
+  _cuando_inicia_callback: any;
 
   constructor(id_elemento_html:string, opciones: OpcionesIniciar) {
 
@@ -48,6 +49,7 @@ class Pilas {
 
   cuando(nombre_evento: string, callback: CallBackEvento) {
     if (nombre_evento === "inicia") {
+      this._cuando_inicia_callback = callback;
       window.addEventListener('evento_inicia', () => {callback()});
     } else {
       alert(`El evento ${nombre_evento} no está soportado.`);
@@ -88,6 +90,9 @@ class Pilas {
    * Concatena dos rutas de manera similar a la función os.path.join
    */
   ejecutar() {
+    if (this.opciones.en_test) {
+      this._cuando_inicia_callback.call(this);
+    }
   }
 
   preload() {
@@ -246,7 +251,7 @@ var pilasengine = {
    * @return {Game} el objeto instanciado que representa el contexto del juego.
    * @api public
    */
-  iniciar: function(element_id: string, opciones: OpcionesIniciar = {data_path: 'data'}) {
+  iniciar: function(element_id: string, opciones: OpcionesIniciar = {data_path: 'data', en_test: false}) {
     return new Pilas(element_id, opciones);
   }
 
