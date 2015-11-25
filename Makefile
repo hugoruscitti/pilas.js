@@ -14,7 +14,7 @@ comandos:
 	@echo "  ${Y}Para desarrolladores${N}"
 	@echo ""
 	@echo "    ${G}iniciar${N}         Instala dependencias."
-	@echo "    ${G}full${N}            Compila y ejecuta el código de prueba en tiempo real."
+	@echo "    ${G}full${N}            Compila y ejecuta prueba en tiempo real."
 	@echo "    ${G}test${N}            Ejecuta los tests de unidad."
 	@echo "    ${G}docs${N}            Ejecuta los tests de unidad."
 	@echo ""
