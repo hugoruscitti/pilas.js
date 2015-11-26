@@ -31,7 +31,7 @@ class Pilas {
       render: this.render.bind(this)
     };
 
-    console.log(`%cpilasengine.js v${VERSION} | http://www.pilas-engine.com.ar`, 'color: blue');
+    console.log(`%cpilasengine.js v${VERSION} | http://www.pilas-engine.com.ar`, "color: blue");
 
     this.opciones = opciones;
     this.game = new Phaser.Game(800, 600, Phaser.CANVAS, id_elemento_html, options);
@@ -50,7 +50,7 @@ class Pilas {
   cuando(nombre_evento: string, callback: CallBackEvento) {
     if (nombre_evento === "inicia") {
       this._cuando_inicia_callback = callback;
-      window.addEventListener('evento_inicia', () => {callback()});
+      window.addEventListener("evento_inicia", () => {callback();});
     } else {
       alert(`El evento ${nombre_evento} no está soportado.`);
     }
@@ -66,7 +66,7 @@ class Pilas {
         entity.x += data.dx;
         entity.y += data.dy;
       }
-    }
+    };
   }
 
   private cargar_imagen(identificador: string, archivo:string) {
@@ -79,8 +79,8 @@ class Pilas {
    */
   private join(a:string, b:string) {
     var path = [a, b].map(function (i) {
-      return i.replace(/(^\/|\/$)/, '');
-    }).join('/');
+      return i.replace(/(^\/|\/$)/, "");
+    }).join("/");
 
     return path;
   }
@@ -96,9 +96,9 @@ class Pilas {
   }
 
   preload() {
-    this.cargar_imagen('humo', 'humo.png');
-    this.cargar_imagen('sin_imagen', 'sin_imagen.png');
-    this.cargar_imagen('fondos/plano', 'fondos/plano.png');
+    this.cargar_imagen("humo", "humo.png");
+    this.cargar_imagen("sin_imagen", "sin_imagen.png");
+    this.cargar_imagen("fondos/plano", "fondos/plano.png");
 
     this.game.stage.disableVisibilityChange = true;
   }
@@ -138,7 +138,7 @@ class Pilas {
         sprite.angle = -entity.rotation;
       } else {
 
-        if (entity['tiled']) {
+        if (entity["tiled"]) {
           sprite = this.game.add.tileSprite(entity.x, entity.y, 800, 600, entity.image);
         } else {
           sprite = this.game.add.sprite(entity.x, entity.y, entity.image);
@@ -220,7 +220,7 @@ class Pilas {
 
   ls() {
     return this.game_state.entities.map((e) => {
-      return(e.id)
+      return(e.id);
     });
   }
 
@@ -251,8 +251,7 @@ var pilasengine = {
    * @return {Game} el objeto instanciado que representa el contexto del juego.
    * @api public
    */
-  iniciar: function(element_id: string, opciones: OpcionesIniciar = {data_path: 'data', en_test: false}) {
+  iniciar: function(element_id: string, opciones: OpcionesIniciar = {data_path: "data", en_test: false}) {
     return new Pilas(element_id, opciones);
   }
-
-}
+};

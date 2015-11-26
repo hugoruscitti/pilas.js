@@ -1,10 +1,10 @@
 interface State {
-  entities: Entity[],
+  entities: Entity[];
 }
 
 interface SpriteCache {
-  id: string,
-  sprite: Phaser.Sprite,
+  id: string;
+  sprite: Phaser.Sprite;
 }
 
 interface OpcionesIniciar {
@@ -13,7 +13,7 @@ interface OpcionesIniciar {
 }
 
 interface CallBackEvento {
-  (): void
+  (): void;
 }
 
 interface CustomEvent extends Event {
@@ -23,4 +23,4 @@ interface CustomEvent extends Event {
 declare var CustomEvent: {
     prototype: CustomEvent;
     new(typeArg: string, eventInitDict?: CustomEventInit): CustomEvent;
-}
+};
