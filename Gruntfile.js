@@ -56,6 +56,7 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-typedoc');
     grunt.registerTask('test', ['qunit']);
-    grunt.registerTask('default', ['connect', 'typescript', 'typedoc', 'test',
-                                   'open', 'watch']);
+    grunt.registerTask('default', ['connect', 'typescript', 'typedoc', 'test', 'open', 'watch']);
+
+    grunt.registerTask('only-build', ['typescript', 'typedoc', 'test']);
 }

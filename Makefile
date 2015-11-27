@@ -18,6 +18,8 @@ comandos:
 	@echo "    ${G}test${N}            Ejecuta los tests de unidad."
 	@echo "    ${G}docs${N}            Ejecuta los tests de unidad."
 	@echo ""
+	@echo "    ${G}compilar${N}        Actualiza y genera el directorio dist."
+	@echo ""
 	@echo "  ${Y}Para distribuir${N}"
 	@echo ""
 	@echo "    ${G}version${N}         Genera una nueva versión."
@@ -27,6 +29,13 @@ comandos:
 iniciar:
 	npm install
 	git submodule update --init
+
+compilar:
+	grunt only-build
+	rm -rf dist
+	mkdir -p dist
+	cp -r public/js dist/
+	cp -r public/data dist/
 
 full:
 	@grunt
