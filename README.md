@@ -9,14 +9,14 @@ Un experimento que busca crear un motor de juegos compatible con pilas-engine, p
 Primero tienes que tener instalado grunt-cli:
 
 ```
-    sudo npm install -g grunt-cli
-    pip install bumpversion
+sudo npm install -g grunt-cli
+pip install bumpversion
 ```
 
 Y luego, clonar el repositorio y ejecutar el siguiente comando:
 
 ```
-  make iniciar
+make iniciar
 ```
 
 ## Comandos principales
@@ -24,5 +24,5 @@ Y luego, clonar el repositorio y ejecutar el siguiente comando:
 El comando make va a mostrar todas las opciones disponibles:
 
 ```
-  make
+make
 ```
