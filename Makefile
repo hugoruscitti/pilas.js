@@ -72,4 +72,4 @@ test:
 docs:
 	grunt typedoc
 
-.PHONY: docs
+.PHONY: docs test
