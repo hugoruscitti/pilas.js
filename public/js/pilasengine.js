@@ -121,7 +121,9 @@ var Pilas = (function () {
         };
         console.log("%cpilasengine.js v" + VERSION + " | http://www.pilas-engine.com.ar", "color: blue");
         this.opciones = opciones;
-        this.game = new Phaser.Game(800, 600, Phaser.CANVAS, id_elemento_html, options);
+        this.ancho = 800;
+        this.alto = 600;
+        this.game = new Phaser.Game(this.ancho, this.alto, Phaser.CANVAS, id_elemento_html, options);
         this.game_history = new Historial(this);
         this.game_state = { entities: [] };
         this.load_scripts();
@@ -170,6 +172,8 @@ var Pilas = (function () {
             this._cuando_inicia_callback.call(this);
         }
     };
+    Pilas.prototype.obtener_actores = function () {
+    };
     Pilas.prototype.preload = function () {
         this.cargar_imagen("humo", "humo.png");
         this.cargar_imagen("sin_imagen", "sin_imagen.png");
@@ -207,7 +211,7 @@ var Pilas = (function () {
             }
             else {
                 if (entity["tiled"]) {
-                    sprite = _this.game.add.tileSprite(entity.x, entity.y, 800, 600, entity.image);
+                    sprite = _this.game.add.tileSprite(entity.x, entity.y, _this.ancho * 2, _this.alto * 2, entity.image);
                 }
                 else {
                     sprite = _this.game.add.sprite(entity.x, entity.y, entity.image);

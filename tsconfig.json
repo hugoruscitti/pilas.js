@@ -1,4 +1,5 @@
 {
+    "buildOnSave": false,
     "compilerOptions": {
         "module": "CommonJS",
         "noImplicitAny": true,
@@ -20,5 +21,8 @@
         "src/tipos.ts",
         "src/utils.ts",
         "src/version.ts"
-    ]
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
 }

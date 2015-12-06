@@ -21,6 +21,8 @@ class Pilas {
 
   evento_inicia: any;
   _cuando_inicia_callback: any;
+  ancho: number;
+  alto: number;
 
   constructor(id_elemento_html:string, opciones: OpcionesIniciar) {
 
@@ -34,7 +36,9 @@ class Pilas {
     console.log(`%cpilasengine.js v${VERSION} | http://www.pilas-engine.com.ar`, "color: blue");
 
     this.opciones = opciones;
-    this.game = new Phaser.Game(800, 600, Phaser.CANVAS, id_elemento_html, options);
+    this.ancho = 800;
+    this.alto = 600;
+    this.game = new Phaser.Game(this.ancho, this.alto, Phaser.CANVAS, id_elemento_html, options);
     this.game_history = new Historial(this);
 
     this.game_state = {entities: []};
@@ -95,6 +99,10 @@ class Pilas {
     }
   }
 
+  obtener_actores() {
+
+  }
+
   preload() {
     this.cargar_imagen("humo", "humo.png");
     this.cargar_imagen("sin_imagen", "sin_imagen.png");
@@ -139,7 +147,7 @@ class Pilas {
       } else {
 
         if (entity["tiled"]) {
-          sprite = this.game.add.tileSprite(entity.x, entity.y, 800, 600, entity.image);
+          sprite = this.game.add.tileSprite(entity.x, entity.y, this.ancho*2, this.alto*2, entity.image);
         } else {
           sprite = this.game.add.sprite(entity.x, entity.y, entity.image);
         }
