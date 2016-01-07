@@ -51,6 +51,7 @@ class Pilas {
   }
 
 
+
   cuando(nombre_evento: string, callback: CallBackEvento) {
     if (nombre_evento === "inicia") {
       this._cuando_inicia_callback = callback;
