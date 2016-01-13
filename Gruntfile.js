@@ -41,11 +41,20 @@ module.exports = function (grunt) {
           files: ['test/index.html']
         },
         watch: {
+          withTests: {
             options: {
               livereload: true,
             },
             files: ['src/**/*.ts', 'test/**', 'public/ejemplos/**'],
             tasks: ['typescript', 'test']
+          },
+          withNoTests: {
+            options: {
+              livereload: true,
+            },
+            files: ['src/**/*.ts', 'test/**', 'public/ejemplos/**'],
+            tasks: ['typescript']
+          }
         },
         open: {
             dev: {
@@ -54,9 +63,16 @@ module.exports = function (grunt) {
         }
     });
 
+
+    grunt.registerTask('message', 'Muestra que url se tiene que abrir.', function(arg) {
+      var msg = 'La aplicación está funcionando en: http://localhost:8080/public/ejemplos';
+      grunt.log.ok(msg);
+    });
+
     grunt.loadNpmTasks('grunt-typedoc');
     grunt.registerTask('test', ['qunit']);
-    grunt.registerTask('default', ['connect', 'typescript', 'typedoc', 'test', 'open', 'watch']);
+    grunt.registerTask('default', ['connect', 'typescript', 'typedoc', 'test', 'message', 'watch":withTests']);
+    grunt.registerTask('defaultFast', ['connect', 'typescript', 'message', 'watch:withNoTests']);
 
     grunt.registerTask('only-build', ['typescript', 'typedoc', 'test']);
 }

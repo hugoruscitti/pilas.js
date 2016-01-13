@@ -15,6 +15,7 @@ comandos:
 	@echo ""
 	@echo "    ${G}iniciar${N}         Instala dependencias."
 	@echo "    ${G}full${N}            Compila y ejecuta prueba en tiempo real."
+	@echo "    ${G}fullWithTests${N}   Compila y ejecuta prueba en tiempo real con tests."
 	@echo "    ${G}test${N}            Ejecuta los tests de unidad."
 	@echo "    ${G}docs${N}            Ejecuta los tests de unidad."
 	@echo ""
@@ -37,8 +38,11 @@ compilar:
 	cp -r public/js dist/
 	cp -r public/data dist/
 
-full:
+fullWithTests:
 	@grunt
+
+full:
+	@grunt defaultFast
 
 version:
 	# patch || minor
