@@ -6,7 +6,7 @@
  *
  */
 interface Entity {
-  name: string,
+  nombre: string,
   id: number,
   x: number,
   y: number,

@@ -8,7 +8,7 @@ class Fondos {
   Plano(x:number=0, y:number=0) {
     var entity = {
       id: 12,
-      name: "fondos/plano",
+      nombre: "fondos/plano",
       image: 'fondos/plano',
       x: x,
       y: y,

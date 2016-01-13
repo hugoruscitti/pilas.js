@@ -1,5 +1,5 @@
 interface State {
-  entities: Entity[];
+  entities: any[];
 }
 
 interface SpriteCache {
