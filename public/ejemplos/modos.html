@@ -1,0 +1,38 @@
+<html>
+
+<head>
+  <script type="text/javascript" src='../js/phaser.js'></script>
+  <script type="text/javascript" src='../js/pilasengine.js'></script>
+</head>
+
+<body>
+
+  <div id="elementoCanvas"></div>
+  <p>
+    <button onclick="verCoordenadas()">Ver coordenadas</button>
+  </p>
+
+  <script type="text/javascript">
+    var pilas = pilasengine.iniciar('elementoCanvas', {data_path: '../data'});
+
+    window.pilas = pilas;
+    window.actor = null;
+
+    pilas.cuando('inicia', function() {
+
+      pilas.fondos.Plano();
+
+      actor = pilas.actores.Actor();
+      actor.x = 100;
+      actor.y = 100;
+
+    });
+
+    window.verCoordenadas = function() {
+      debugger;
+    }
+  </script>
+
+</body>
+
+</html>

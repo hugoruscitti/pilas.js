@@ -119,7 +119,7 @@ var Pilas = (function () {
             update: this.update.bind(this),
             render: this.render.bind(this)
         };
-        console.log("%cpilasengine.js v" + VERSION + " | http://www.pilas-engine.com.ar", 'color: blue');
+        console.log("%cpilasengine.js v" + VERSION + " | http://www.pilas-engine.com.ar", "color: blue");
         this.opciones = opciones;
         this.game = new Phaser.Game(800, 600, Phaser.CANVAS, id_elemento_html, options);
         this.game_history = new Historial(this);
@@ -132,7 +132,7 @@ var Pilas = (function () {
     Pilas.prototype.cuando = function (nombre_evento, callback) {
         if (nombre_evento === "inicia") {
             this._cuando_inicia_callback = callback;
-            window.addEventListener('evento_inicia', function () { callback(); });
+            window.addEventListener("evento_inicia", function () { callback(); });
         }
         else {
             alert("El evento " + nombre_evento + " no est\u00E1 soportado.");
@@ -158,8 +158,8 @@ var Pilas = (function () {
      */
     Pilas.prototype.join = function (a, b) {
         var path = [a, b].map(function (i) {
-            return i.replace(/(^\/|\/$)/, '');
-        }).join('/');
+            return i.replace(/(^\/|\/$)/, "");
+        }).join("/");
         return path;
     };
     /**
@@ -171,9 +171,9 @@ var Pilas = (function () {
         }
     };
     Pilas.prototype.preload = function () {
-        this.cargar_imagen('humo', 'humo.png');
-        this.cargar_imagen('sin_imagen', 'sin_imagen.png');
-        this.cargar_imagen('fondos/plano', 'fondos/plano.png');
+        this.cargar_imagen("humo", "humo.png");
+        this.cargar_imagen("sin_imagen", "sin_imagen.png");
+        this.cargar_imagen("fondos/plano", "fondos/plano.png");
         this.game.stage.disableVisibilityChange = true;
     };
     Pilas.prototype.create = function () {
@@ -206,7 +206,7 @@ var Pilas = (function () {
                 sprite.angle = -entity.rotation;
             }
             else {
-                if (entity['tiled']) {
+                if (entity["tiled"]) {
                     sprite = _this.game.add.tileSprite(entity.x, entity.y, 800, 600, entity.image);
                 }
                 else {
@@ -295,7 +295,7 @@ var pilasengine = {
      * @api public
      */
     iniciar: function (element_id, opciones) {
-        if (opciones === void 0) { opciones = { data_path: 'data', en_test: false }; }
+        if (opciones === void 0) { opciones = { data_path: "data", en_test: false }; }
         return new Pilas(element_id, opciones);
     }
 };
