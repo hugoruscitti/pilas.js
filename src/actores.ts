@@ -5,6 +5,15 @@ class Actores {
     this.game = game;
   }
 
+  /**
+   * Representa a un actor genérico, con una imagen y propiedades
+   * de transformación como ``x``, ``y``, ``escala_x``, ``escala_y`` etc...
+   *
+   * ![](../imagenes/sin_imagen.png)
+   *
+   * @param x - posición horizontal.
+   * @param y - posición vertical.
+   */
   Actor(x:number=0, y:number=0) {
     var entity = {
       id: 12,
@@ -26,7 +35,7 @@ class Actores {
 
     entity.id = Math.ceil(Math.random() * 1000000000000);
 
-    this.game.game_state.entities.push(entity);
+    this.game.game_state.entidades.push(entity);
     return entity;
   }
 
@@ -46,7 +55,7 @@ class Actores {
       }
     };
 
-    
+
 
 
     entidad.contador = diccionario.contador;
@@ -61,7 +70,7 @@ class Actores {
       throw new Error("Tienes que especificar le nombre de la entidad.");
     }
 
-    this.game.game_state.entities.push(entidad);
+    this.game.game_state.entidades.push(entidad);
   }
 
 }

@@ -1,6 +1,6 @@
 class Historial {
   game: Pilas;
-  game_state_history: State[];
+  game_state_history: Estado[];
   current_step: number;
 
   constructor(game:Pilas) {
@@ -18,7 +18,7 @@ class Historial {
     return this.game_state_history.length;
   }
 
-  save(state: State) {
+  save(state: Estado) {
     this.game_state_history.push(JSON.parse(JSON.stringify(state)));
     this.current_step = this.game_state_history.length;
   }

@@ -8,13 +8,13 @@
 
 
 
-var timer= 0;
+var timer = 0;
 
 
 
 class Pilas {
   game: Phaser.Game;
-  game_state: State;
+  game_state: Estado;
   game_history: Historial;
   pause_enabled: boolean = false;
   sprites: SpriteCache[] = [];
@@ -36,7 +36,7 @@ class Pilas {
     var options = {
       preload: this.preload.bind(this),
       create: this.create.bind(this),
-      update: this.update.bind(this),
+      update: this._actualizar.bind(this),
       render: this.render.bind(this)
     };
 
@@ -49,7 +49,7 @@ class Pilas {
     this.game = new Phaser.Game(this.ancho, this.alto, Phaser.CANVAS, id_elemento_html, options);
     this.game_history = new Historial(this);
 
-    this.game_state = {entities: []};
+    this.game_state = {entidades: []};
 
     this.load_scripts();
     this.actores = new Actores(this);
@@ -87,7 +87,7 @@ class Pilas {
   }
 
   /**
-   * Concatena dos rutas de manera similar a la función os.path.join
+   * Concatena dos rutas de manera similar a la función ``os.path.join`` de python.
    */
   private join(a:string, b:string) {
     var path = [a, b].map(function (i) {
@@ -128,35 +128,35 @@ class Pilas {
     //this.game.world.bringToTop();
   }
 
-  pause() {
+  pausar() {
     this.pause_enabled = true;
   }
 
-  unpause() {
+  continuar() {
     this.pause_enabled = false;
     this.game_history.reset();
   }
 
-  toggle_pause() {
+  alternar_pausa() {
     if (this.pause_enabled) {
-      this.unpause();
+      this.continuar();
     } else {
-      this.pause();
+      this.pausar();
     }
   }
 
-  update() {
-    this.update_actors(this.pause_enabled);
+  private _actualizar() {
+    this._actualizar_actores(this.pause_enabled);
   }
 
-  update_actors(pause_enabled:boolean) {
+  private _actualizar_actores(pause_enabled:boolean) {
     this.canvas.clear();
 
-    this.game_state.entities.forEach((entity:any) => {
+    this.game_state.entidades.forEach((entity:any) => {
       var sprite: any = null;
 
       if (entity.sprite_id) {
-        sprite = this.get_sprite_by_id(entity.sprite_id);
+        sprite = this._obtener_sprite_por_id(entity.sprite_id);
 
         sprite.position.set(entity.x, entity.y);
         sprite.scale.set(entity.scale_x, entity.scale_y);
@@ -200,7 +200,7 @@ class Pilas {
           } catch (e) {
             console.warn("Hay un error en pilas, así que se activó la pausa. Usá la sentencia 'pilas.unpause()' luego de reparar el error.");
             console.error(e);
-            this.pause();
+            this.pausar();
           }
         }
 
@@ -217,8 +217,8 @@ class Pilas {
       this.game_history.save(this.game_state);
 
       if (timer === 0) {
-        var data:any = JSON.stringify(this.game_state);
-        document.getElementById('result').innerHTML = data.replace(/\,/g, ',<br/>');
+        var data:any = JSON.stringify(this.game_state, null, "  ");
+        document.getElementById('result').innerHTML = data;
       }
 
       timer += 1;
@@ -233,33 +233,33 @@ class Pilas {
   }
 
   step() {
-    this.update_actors(false);
+    this._actualizar_actores(false);
   }
 
   render() {
   	//this.game.debug.inputInfo(32, 32);
   }
 
-  get_entity_by_id(id: number) {
-    var entities = this.ls();
+  obtener_entidad_por_id(id: number) {
+    var entities = this.obtener_entidades();
     var index = entities.indexOf(id);
 
-    return this.game_state.entities[index];
+    return this.game_state.entidades[index];
   }
 
   private add_sprite(sprite:Phaser.Sprite) {
-    var id = this.create_id();
+    var id = this._crear_id();
 
     this.sprites.push({id: id, sprite: sprite});
 
     return id;
   }
 
-  private create_id() {
+  private _crear_id() {
     return (0|Math.random()*9e6).toString(36);
   }
 
-  private get_sprite_by_id(id:string) {
+  private _obtener_sprite_por_id(id:string) {
 
     for (var i=0; i<this.sprites.length; i++) {
       var element = this.sprites[i];
@@ -285,8 +285,8 @@ class Pilas {
     this.transition_to_step(state);
   }
 
-  ls() {
-    return this.game_state.entities.map((e) => {
+  obtener_entidades() {
+    return this.game_state.entidades.map((e) => {
       return(e.id);
     });
   }
@@ -295,7 +295,7 @@ class Pilas {
     return new ActorProxy(this, id);
   }
 
-  private transition_to_step(state: State) {
+  private transition_to_step(state: Estado) {
     var current_state = this.game_state;
     this.game_state = state;
   }

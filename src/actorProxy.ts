@@ -13,7 +13,7 @@ class ActorProxy {
   }
 
   public get data() {
-    return this.game.get_entity_by_id(this.id);
+    return this.game.obtener_entidad_por_id(this.id);
   }
 
 }

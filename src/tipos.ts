@@ -1,5 +1,5 @@
-interface State {
-  entities: any[];
+interface Estado {
+  entidades: any[];
 }
 
 interface SpriteCache {
@@ -7,10 +7,13 @@ interface SpriteCache {
   sprite: Phaser.Sprite;
 }
 
+
+
 interface OpcionesIniciar {
   data_path: string;
   en_test: boolean;
 }
+
 
 interface CallBackEvento {
   (): void;

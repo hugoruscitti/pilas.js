@@ -12,7 +12,7 @@ var ActorProxy = (function () {
     });
     Object.defineProperty(ActorProxy.prototype, "data", {
         get: function () {
-            return this.game.get_entity_by_id(this.id);
+            return this.game.obtener_entidad_por_id(this.id);
         },
         enumerable: true,
         configurable: true
@@ -23,6 +23,15 @@ var Actores = (function () {
     function Actores(game) {
         this.game = game;
     }
+    /**
+     * Representa a un actor genérico, con una imagen y propiedades
+     * de transformación como ``x``, ``y``, ``escala_x``, ``escala_y`` etc...
+     *
+     * ![](../imagenes/sin_imagen.png)
+     *
+     * @param x - posición horizontal.
+     * @param y - posición vertical.
+     */
     Actores.prototype.Actor = function (x, y) {
         if (x === void 0) { x = 0; }
         if (y === void 0) { y = 0; }
@@ -44,7 +53,7 @@ var Actores = (function () {
             }
         };
         entity.id = Math.ceil(Math.random() * 1000000000000);
-        this.game.game_state.entities.push(entity);
+        this.game.game_state.entidades.push(entity);
         return entity;
     };
     Actores.prototype.crear = function (diccionario) {
@@ -69,7 +78,7 @@ var Actores = (function () {
             console.error("Tienes que especificar le nombre de la entidad.", entidad);
             throw new Error("Tienes que especificar le nombre de la entidad.");
         }
-        this.game.game_state.entities.push(entidad);
+        this.game.game_state.entidades.push(entidad);
     };
     return Actores;
 })();
@@ -95,7 +104,7 @@ var Fondos = (function () {
             scripts: {}
         };
         entity.id = Math.ceil(Math.random() * 1000000000000);
-        this.pilas.game_state.entities.push(entity);
+        this.pilas.game_state.entidades.push(entity);
         return entity;
     };
     return Fondos;
@@ -141,7 +150,7 @@ var Pilas = (function () {
         var options = {
             preload: this.preload.bind(this),
             create: this.create.bind(this),
-            update: this.update.bind(this),
+            update: this._actualizar.bind(this),
             render: this.render.bind(this)
         };
         console.log("%cpilasengine.js v" + VERSION + " | http://www.pilas-engine.com.ar", "color: blue");
@@ -151,7 +160,7 @@ var Pilas = (function () {
         this.alto = 600;
         this.game = new Phaser.Game(this.ancho, this.alto, Phaser.CANVAS, id_elemento_html, options);
         this.game_history = new Historial(this);
-        this.game_state = { entities: [] };
+        this.game_state = { entidades: [] };
         this.load_scripts();
         this.actores = new Actores(this);
         this.fondos = new Fondos(this);
@@ -183,7 +192,7 @@ var Pilas = (function () {
         this.game.load.image(identificador, path);
     };
     /**
-     * Concatena dos rutas de manera similar a la función os.path.join
+     * Concatena dos rutas de manera similar a la función ``os.path.join`` de python.
      */
     Pilas.prototype.join = function (a, b) {
         var path = [a, b].map(function (i) {
@@ -213,31 +222,31 @@ var Pilas = (function () {
         this.canvas = this.game.add.graphics(0, 0);
         //this.game.world.bringToTop();
     };
-    Pilas.prototype.pause = function () {
+    Pilas.prototype.pausar = function () {
         this.pause_enabled = true;
     };
-    Pilas.prototype.unpause = function () {
+    Pilas.prototype.continuar = function () {
         this.pause_enabled = false;
         this.game_history.reset();
     };
-    Pilas.prototype.toggle_pause = function () {
+    Pilas.prototype.alternar_pausa = function () {
         if (this.pause_enabled) {
-            this.unpause();
+            this.continuar();
         }
         else {
-            this.pause();
+            this.pausar();
         }
     };
-    Pilas.prototype.update = function () {
-        this.update_actors(this.pause_enabled);
+    Pilas.prototype._actualizar = function () {
+        this._actualizar_actores(this.pause_enabled);
     };
-    Pilas.prototype.update_actors = function (pause_enabled) {
+    Pilas.prototype._actualizar_actores = function (pause_enabled) {
         var _this = this;
         this.canvas.clear();
-        this.game_state.entities.forEach(function (entity) {
+        this.game_state.entidades.forEach(function (entity) {
             var sprite = null;
             if (entity.sprite_id) {
-                sprite = _this.get_sprite_by_id(entity.sprite_id);
+                sprite = _this._obtener_sprite_por_id(entity.sprite_id);
                 sprite.position.set(entity.x, entity.y);
                 sprite.scale.set(entity.scale_x, entity.scale_y);
                 sprite.anchor.setTo(entity.anchor_x, entity.anchor_y);
@@ -268,7 +277,7 @@ var Pilas = (function () {
                     catch (e) {
                         console.warn("Hay un error en pilas, así que se activó la pausa. Usá la sentencia 'pilas.unpause()' luego de reparar el error.");
                         console.error(e);
-                        _this.pause();
+                        _this.pausar();
                     }
                 }
                 // Actualiza las entidades.
@@ -280,8 +289,8 @@ var Pilas = (function () {
         if (!pause_enabled) {
             this.game_history.save(this.game_state);
             if (timer === 0) {
-                var data = JSON.stringify(this.game_state);
-                document.getElementById('result').innerHTML = data.replace(/\,/g, ',<br/>');
+                var data = JSON.stringify(this.game_state, null, "  ");
+                document.getElementById('result').innerHTML = data;
             }
             timer += 1;
             if (timer > 20) {
@@ -290,25 +299,25 @@ var Pilas = (function () {
         }
     };
     Pilas.prototype.step = function () {
-        this.update_actors(false);
+        this._actualizar_actores(false);
     };
     Pilas.prototype.render = function () {
         //this.game.debug.inputInfo(32, 32);
     };
-    Pilas.prototype.get_entity_by_id = function (id) {
-        var entities = this.ls();
+    Pilas.prototype.obtener_entidad_por_id = function (id) {
+        var entities = this.obtener_entidades();
         var index = entities.indexOf(id);
-        return this.game_state.entities[index];
+        return this.game_state.entidades[index];
     };
     Pilas.prototype.add_sprite = function (sprite) {
-        var id = this.create_id();
+        var id = this._crear_id();
         this.sprites.push({ id: id, sprite: sprite });
         return id;
     };
-    Pilas.prototype.create_id = function () {
+    Pilas.prototype._crear_id = function () {
         return (0 | Math.random() * 9e6).toString(36);
     };
-    Pilas.prototype.get_sprite_by_id = function (id) {
+    Pilas.prototype._obtener_sprite_por_id = function (id) {
         for (var i = 0; i < this.sprites.length; i++) {
             var element = this.sprites[i];
             if (element.id === id) {
@@ -327,8 +336,8 @@ var Pilas = (function () {
         var state = this.game_history.get_state_by_step(step);
         this.transition_to_step(state);
     };
-    Pilas.prototype.ls = function () {
-        return this.game_state.entities.map(function (e) {
+    Pilas.prototype.obtener_entidades = function () {
+        return this.game_state.entidades.map(function (e) {
             return (e.id);
         });
     };

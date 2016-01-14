@@ -20,7 +20,7 @@ pilas.cuando('inicia', function() {
 
     actualizar: function() {
       this.contador += 1;
-      
+
       this.rotation = Math.sin(this.contador / 20.0) * -30;
       this.x += Math.sin(this.contador / 20.0) * 10;
       this.scale_x = Math.sin(this.contador / 5.0) * 0.2 + 1.2;
