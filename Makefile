@@ -75,5 +75,8 @@ test:
 
 docs:
 	grunt typedoc
+	@echo "Copiando imágenes ..."
+	@cp -rf docs/imagenes docs/dist/
+	@echo "${G}La documentación se generó en 'docs/dist'${N}"
 
 .PHONY: docs test

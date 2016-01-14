@@ -10,11 +10,12 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     module: 'commonjs',
-                    out: './docs',
+                    out: './docs/dist',
                     name: 'pilasengine.js',
-                    target: 'es5'
+                    target: 'es5',
+                    readme: './docs/homepage.md'
                 },
-                src: ['./src/**/*']
+                src: ['./src/**/*', 'public/data/**/*']
             }
         },
         pkg: grunt.file.readJSON('package.json'),
@@ -69,7 +70,9 @@ module.exports = function (grunt) {
       grunt.log.ok(msg);
     });
 
+
     grunt.loadNpmTasks('grunt-typedoc');
+
     grunt.registerTask('test', ['qunit']);
     grunt.registerTask('default', ['connect', 'typescript', 'typedoc', 'test', 'message', 'watch":withTests']);
     grunt.registerTask('defaultFast', ['connect', 'typescript', 'message', 'watch:withNoTests']);
