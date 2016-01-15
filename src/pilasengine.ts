@@ -27,12 +27,14 @@ class Pilas {
   _cuando_inicia_callback: any;
   ancho: number;
   alto: number;
+  mouse: {x: number, y: number};
 
   codigos: any;
   canvas: Phaser.Graphics;
 
   constructor(id_elemento_html:string, opciones: OpcionesIniciar) {
 
+    this.mouse = {x: 0, y: 0};
     var options = {
       preload: this.preload.bind(this),
       create: this.create.bind(this),
@@ -108,7 +110,7 @@ class Pilas {
   }
 
   obtener_actores() {
-
+    console.log("TODO");
   }
 
   preload() {
@@ -147,6 +149,8 @@ class Pilas {
 
   private _actualizar() {
     this._actualizar_actores(this.pause_enabled);
+    this.mouse.x = this.game.input.x;
+    this.mouse.y = this.game.input.y;
   }
 
   private _actualizar_actores(pause_enabled:boolean) {
@@ -218,7 +222,7 @@ class Pilas {
 
       if (timer === 0) {
         var data:any = JSON.stringify(this.game_state, null, "  ");
-        document.getElementById('result').innerHTML = data;
+        document.getElementById("result").innerHTML = data;
       }
 
       timer += 1;

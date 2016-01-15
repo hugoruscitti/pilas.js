@@ -147,6 +147,7 @@ var Pilas = (function () {
     function Pilas(id_elemento_html, opciones) {
         this.pause_enabled = false;
         this.sprites = [];
+        this.mouse = { x: 0, y: 0 };
         var options = {
             preload: this.preload.bind(this),
             create: this.create.bind(this),
@@ -209,6 +210,7 @@ var Pilas = (function () {
         }
     };
     Pilas.prototype.obtener_actores = function () {
+        console.log("TODO");
     };
     Pilas.prototype.preload = function () {
         this.cargar_imagen("humo", "humo.png");
@@ -239,6 +241,8 @@ var Pilas = (function () {
     };
     Pilas.prototype._actualizar = function () {
         this._actualizar_actores(this.pause_enabled);
+        this.mouse.x = this.game.input.x;
+        this.mouse.y = this.game.input.y;
     };
     Pilas.prototype._actualizar_actores = function (pause_enabled) {
         var _this = this;
@@ -290,7 +294,7 @@ var Pilas = (function () {
             this.game_history.save(this.game_state);
             if (timer === 0) {
                 var data = JSON.stringify(this.game_state, null, "  ");
-                document.getElementById('result').innerHTML = data;
+                document.getElementById("result").innerHTML = data;
             }
             timer += 1;
             if (timer > 20) {
