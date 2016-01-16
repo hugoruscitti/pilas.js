@@ -166,8 +166,56 @@ var Pilas = (function () {
         this.actores = new Actores(this);
         this.fondos = new Fondos(this);
         this.evento_inicia = document.createEvent("Event");
-        window["game"] = this;
     }
+    Pilas.prototype._activar_redimensionado = function () {
+        var gameArea = document.getElementById('elementoCanvas');
+        gameArea.style.position = "absolute";
+        gameArea.style.left = "50%";
+        gameArea.style.top = "50%";
+        gameArea.style.width = "100%";
+        gameArea.style.height = "100%";
+        function resizeGame() {
+            var gameArea = document.getElementById('elementoCanvas');
+            var canvas = gameArea.children[0];
+            var widthToHeight = 4 / 3;
+            var newWidth = window.innerWidth;
+            var newHeight = window.innerHeight;
+            var newWidthToHeight = newWidth / newHeight;
+            if (newWidthToHeight > widthToHeight) {
+                newWidth = newHeight * widthToHeight;
+                gameArea.style.height = newHeight + 'px';
+                gameArea.style.width = newWidth + 'px';
+            }
+            else {
+                newHeight = newWidth / widthToHeight;
+                gameArea.style.width = newWidth + 'px';
+                gameArea.style.height = newHeight + 'px';
+            }
+            gameArea.style.marginTop = (-newHeight / 2) + 'px';
+            gameArea.style.marginLeft = (-newWidth / 2) + 'px';
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+        }
+        window.addEventListener('resize', resizeGame, false);
+        this._crear_estilo_de_canvas_redimensionado();
+        resizeGame();
+    };
+    Pilas.prototype._crear_estilo_de_canvas_redimensionado = function () {
+        var style = document.createElement("style");
+        style.appendChild(document.createTextNode(""));
+        document.head.appendChild(style);
+        var sheet = style.sheet;
+        var selector = "canvas"; // TODO: AGREGAR ID DEL ELEMENTO
+        var rules = "width: 100% !important; height: 100% !important;";
+        if ("insertRule" in sheet) {
+            sheet.insertRule(selector + "{" + rules + "}", 0);
+        }
+        else {
+            if ("addRule" in sheet) {
+                sheet.addRule(selector, rules, 0);
+            }
+        }
+    };
     Pilas.prototype.cuando = function (nombre_evento, callback) {
         if (nombre_evento === "inicia") {
             this._cuando_inicia_callback = callback;
@@ -192,6 +240,11 @@ var Pilas = (function () {
         var path = this.join(this.opciones.data_path, archivo);
         this.game.load.image(identificador, path);
     };
+    Pilas.prototype.cargar_imagen_atlas = function (id, archivo_png, archivo_json) {
+        var path_png = this.join(this.opciones.data_path, archivo_png);
+        var path_json = this.join(this.opciones.data_path, archivo_json);
+        this.game.load.atlasJSONHash(id, path_png, path_json);
+    };
     /**
      * Concatena dos rutas de manera similar a la función ``os.path.join`` de python.
      */
@@ -213,11 +266,16 @@ var Pilas = (function () {
         console.log("TODO");
     };
     Pilas.prototype.preload = function () {
+        this.game.stage.disableVisibilityChange = true;
         this.cargar_imagen("humo", "humo.png");
         this.cargar_imagen("sin_imagen", "sin_imagen.png");
         this.cargar_imagen("fondos/plano", "fondos/plano.png");
         this.cargar_imagen("yamcha", "yamcha.png");
-        this.game.stage.disableVisibilityChange = true;
+        this.cargar_imagen_atlas('data', 'sprites.png', 'sprites.json');
+        this.game.stage.disableVisibilityChange = false;
+        if (this.opciones.redimensionar) {
+            this._activar_redimensionado();
+        }
     };
     Pilas.prototype.create = function () {
         window.dispatchEvent(new CustomEvent("evento_inicia"));
@@ -370,7 +428,7 @@ var pilasengine = {
      * @api public
      */
     iniciar: function (element_id, opciones) {
-        if (opciones === void 0) { opciones = { data_path: "data", en_test: false }; }
+        if (opciones === void 0) { opciones = { data_path: "data", en_test: false, redimensionar: true }; }
         return new Pilas(element_id, opciones);
     }
 };
