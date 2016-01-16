@@ -1,4 +1,4 @@
-var pilas = pilasengine.iniciar('elementoCanvas', {data_path: '../data'});
+var pilas = pilasengine.iniciar('elementoCanvas', {data_path: '../data', redimensionar: true});
 
 window.pilas = pilas;
 window.actor = null;

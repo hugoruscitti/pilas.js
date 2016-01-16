@@ -1,0 +1,180 @@
+{"frames": {
+
+"moneda.png":
+{
+	"frame": {"x":752,"y":2,"w":128,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":16},
+	"sourceSize": {"w":128,"h":16}
+},
+"monkey_normal.png":
+{
+	"frame": {"x":882,"y":2,"w":157,"h":122},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":157,"h":122},
+	"sourceSize": {"w":157,"h":122}
+},
+"monkey_shout.png":
+{
+	"frame": {"x":2,"y":126,"w":157,"h":122},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":157,"h":122},
+	"sourceSize": {"w":157,"h":122}
+},
+"monkey_smile.png":
+{
+	"frame": {"x":161,"y":126,"w":157,"h":122},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":157,"h":122},
+	"sourceSize": {"w":157,"h":122}
+},
+"mono.png":
+{
+	"frame": {"x":882,"y":2,"w":157,"h":122},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":157,"h":122},
+	"sourceSize": {"w":157,"h":122}
+},
+"mono_gritar.png":
+{
+	"frame": {"x":2,"y":126,"w":157,"h":122},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":157,"h":122},
+	"sourceSize": {"w":157,"h":122}
+},
+"mono_reir.png":
+{
+	"frame": {"x":161,"y":126,"w":157,"h":122},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":157,"h":122},
+	"sourceSize": {"w":157,"h":122}
+},
+"montes.png":
+{
+	"frame": {"x":514,"y":126,"w":640,"h":317},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":317},
+	"sourceSize": {"w":640,"h":317}
+},
+"nave.png":
+{
+	"frame": {"x":452,"y":2,"w":94,"h":46},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":94,"h":46},
+	"sourceSize": {"w":94,"h":46}
+},
+"patito.png":
+{
+	"frame": {"x":548,"y":2,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+"patito_desde_arriba.png":
+{
+	"frame": {"x":218,"y":2,"w":67,"h":67},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":67},
+	"sourceSize": {"w":67,"h":67}
+},
+"pelota.png":
+{
+	"frame": {"x":110,"y":2,"w":49,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":50},
+	"sourceSize": {"w":49,"h":50}
+},
+"piedra_grande.png":
+{
+	"frame": {"x":161,"y":2,"w":55,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":55,"h":54},
+	"sourceSize": {"w":55,"h":54}
+},
+"piedra_media.png":
+{
+	"frame": {"x":24,"y":2,"w":35,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":36},
+	"sourceSize": {"w":35,"h":36}
+},
+"pilasengine-icono.png":
+{
+	"frame": {"x":320,"y":126,"w":192,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":192},
+	"sourceSize": {"w":192,"h":192}
+},
+"pixel_player.png":
+{
+	"frame": {"x":369,"y":2,"w":81,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":81,"h":33},
+	"sourceSize": {"w":81,"h":33}
+},
+"planeta_naranja.png":
+{
+	"frame": {"x":287,"y":2,"w":80,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
+},
+"plano.png":
+{
+	"frame": {"x":12,"y":2,"w":10,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":10},
+	"sourceSize": {"w":10,"h":10}
+},
+"punto.png":
+{
+	"frame": {"x":2,"y":2,"w":8,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
+	"sourceSize": {"w":8,"h":8}
+},
+"spacekids.png":
+{
+	"frame": {"x":650,"y":2,"w":100,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":60},
+	"sourceSize": {"w":100,"h":60}
+},
+"tortuga.png":
+{
+	"frame": {"x":61,"y":2,"w":47,"h":37},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":47,"h":37},
+	"sourceSize": {"w":47,"h":37}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "sprites.png",
+	"format": "RGBA8888",
+	"size": {"w":1156,"h":445},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d0a832b4f5687ec3e4e558da1a9d7c20:958a55f6199f601fc52982362e6fa3c5:1eabdf11f75e3a4fe3147baf7b5be24b$"
+}
+}

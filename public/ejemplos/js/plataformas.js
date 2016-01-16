@@ -7,5 +7,5 @@ pilas.cuando('inicia', function() {
 
   pilas.fondos.Plano();
   actor = pilas.actores.Actor();
-  
+
 });
