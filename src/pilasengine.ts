@@ -63,7 +63,7 @@ class Pilas {
 
 
   private _activar_redimensionado() {
-    var gameArea = document.getElementById('elementoCanvas');
+    var gameArea = document.getElementById("elementoCanvas");
 
     gameArea.style.position = "absolute";
     gameArea.style.left = "50%";
@@ -74,7 +74,7 @@ class Pilas {
 
 
     function resizeGame() {
-      var gameArea = document.getElementById('elementoCanvas');
+      var gameArea = document.getElementById("elementoCanvas");
       var canvas:any = gameArea.children[0];
       var widthToHeight = 4 / 3;
       var newWidth = window.innerWidth;
@@ -84,22 +84,22 @@ class Pilas {
 
       if (newWidthToHeight > widthToHeight) {
         newWidth = newHeight * widthToHeight;
-        gameArea.style.height = newHeight + 'px';
-        gameArea.style.width = newWidth + 'px';
+        gameArea.style.height = newHeight + "px";
+        gameArea.style.width = newWidth + "px";
       } else {
         newHeight = newWidth / widthToHeight;
-        gameArea.style.width = newWidth + 'px';
-        gameArea.style.height = newHeight + 'px';
+        gameArea.style.width = newWidth + "px";
+        gameArea.style.height = newHeight + "px";
       }
 
-      gameArea.style.marginTop = (-newHeight / 2) + 'px';
-      gameArea.style.marginLeft = (-newWidth / 2) + 'px';
+      gameArea.style.marginTop = (-newHeight / 2) + "px";
+      gameArea.style.marginLeft = (-newWidth / 2) + "px";
 
       canvas.style.width = "100%";
       canvas.style.height = "100%";
     }
 
-    window.addEventListener('resize', resizeGame, false);
+    window.addEventListener("resize", resizeGame, false);
 
     this._crear_estilo_de_canvas_redimensionado();
 
@@ -193,7 +193,7 @@ class Pilas {
 
     this.cargar_imagen("yamcha", "yamcha.png");
 
-    this.cargar_imagen_atlas('data', 'sprites.png', 'sprites.json');
+    this.cargar_imagen_atlas("data", "sprites.png", "sprites.json");
 
     this.game.stage.disableVisibilityChange = false;
 
@@ -299,6 +299,7 @@ class Pilas {
     if (!pause_enabled) {
       this.game_history.save(this.game_state);
 
+      /*
       if (timer === 0) {
         var data:any = JSON.stringify(this.game_state, null, "  ");
         document.getElementById("result").innerHTML = data;
@@ -309,6 +310,7 @@ class Pilas {
       if (timer > 20) {
         timer = 0;
       }
+      */
 
 
     }

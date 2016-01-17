@@ -12,55 +12,12 @@
   <script type="text/javascript">
     var pilas = pilasengine.iniciar('elementoCanvas', {data_path: '../data'});
 
-    window.pilas = pilas;
-    window.actor = null;
-
     pilas.cuando('inicia', function() {
 
       pilas.fondos.Plano();
 
-      actor = pilas.actores.Actor();
-      actor.x = 100;
-      actor.y = 100;
-
+      actor = pilas.actores.Pelota();
     });
-
-
-    /*
-    var slider = document.getElementById('slider');
-    var pauseButton = document.getElementById('pauseButton');
-    hideSlider();
-
-    function showSlider() {
-      slider.style.visibility = null;
-      slider.setAttribute('max', pilas.game_history.get_length() -1);
-      slider.value = pilas.game_history.get_length();
-
-      slider.onmousemove = function(value) {
-        pilas.restore(this.value);
-      };
-
-      slider.onchange = function(value) {
-        pilas.restore(this.value);
-      }
-    }
-
-    function hideSlider() {
-      //slider.style.visibility = "hidden";
-    }
-
-    pauseButton.onclick = function() {
-      pilas.toggle_pause();
-
-      if (pilas.game_enabled) {
-        showSlider();
-        this.textContent = "Play";
-      } else {
-        hideSlider();
-        this.textContent = "Pause";
-      }
-    };
-    */
   </script>
 
 </body>

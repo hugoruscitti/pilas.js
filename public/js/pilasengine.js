@@ -168,14 +168,14 @@ var Pilas = (function () {
         this.evento_inicia = document.createEvent("Event");
     }
     Pilas.prototype._activar_redimensionado = function () {
-        var gameArea = document.getElementById('elementoCanvas');
+        var gameArea = document.getElementById("elementoCanvas");
         gameArea.style.position = "absolute";
         gameArea.style.left = "50%";
         gameArea.style.top = "50%";
         gameArea.style.width = "100%";
         gameArea.style.height = "100%";
         function resizeGame() {
-            var gameArea = document.getElementById('elementoCanvas');
+            var gameArea = document.getElementById("elementoCanvas");
             var canvas = gameArea.children[0];
             var widthToHeight = 4 / 3;
             var newWidth = window.innerWidth;
@@ -183,20 +183,20 @@ var Pilas = (function () {
             var newWidthToHeight = newWidth / newHeight;
             if (newWidthToHeight > widthToHeight) {
                 newWidth = newHeight * widthToHeight;
-                gameArea.style.height = newHeight + 'px';
-                gameArea.style.width = newWidth + 'px';
+                gameArea.style.height = newHeight + "px";
+                gameArea.style.width = newWidth + "px";
             }
             else {
                 newHeight = newWidth / widthToHeight;
-                gameArea.style.width = newWidth + 'px';
-                gameArea.style.height = newHeight + 'px';
+                gameArea.style.width = newWidth + "px";
+                gameArea.style.height = newHeight + "px";
             }
-            gameArea.style.marginTop = (-newHeight / 2) + 'px';
-            gameArea.style.marginLeft = (-newWidth / 2) + 'px';
+            gameArea.style.marginTop = (-newHeight / 2) + "px";
+            gameArea.style.marginLeft = (-newWidth / 2) + "px";
             canvas.style.width = "100%";
             canvas.style.height = "100%";
         }
-        window.addEventListener('resize', resizeGame, false);
+        window.addEventListener("resize", resizeGame, false);
         this._crear_estilo_de_canvas_redimensionado();
         resizeGame();
     };
@@ -271,7 +271,7 @@ var Pilas = (function () {
         this.cargar_imagen("sin_imagen", "sin_imagen.png");
         this.cargar_imagen("fondos/plano", "fondos/plano.png");
         this.cargar_imagen("yamcha", "yamcha.png");
-        this.cargar_imagen_atlas('data', 'sprites.png', 'sprites.json');
+        this.cargar_imagen_atlas("data", "sprites.png", "sprites.json");
         this.game.stage.disableVisibilityChange = false;
         if (this.opciones.redimensionar) {
             this._activar_redimensionado();
@@ -350,14 +350,6 @@ var Pilas = (function () {
         });
         if (!pause_enabled) {
             this.game_history.save(this.game_state);
-            if (timer === 0) {
-                var data = JSON.stringify(this.game_state, null, "  ");
-                document.getElementById("result").innerHTML = data;
-            }
-            timer += 1;
-            if (timer > 20) {
-                timer = 0;
-            }
         }
     };
     Pilas.prototype.step = function () {
