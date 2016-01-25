@@ -18,7 +18,7 @@ class Actores {
     var entity = {
       id: 12,
       nombre: "sin_imagen",
-      image: 'sin_imagen',
+      imagen: 'sin_imagen',
       x: x,
       y: y,
       scale_x: 1,
@@ -39,11 +39,20 @@ class Actores {
     return entity;
   }
 
+  Patito() {
+    var entidad: any = this.crear({
+      nombre: "patito",
+      imagen: "data:patito.png"
+    });
+
+    return new ActorProxy(this.game, entidad.id);
+  }
+
   crear(diccionario:any) {
     var entidad:any = {
       id: Math.ceil(Math.random() * 1000000000000),
       nombre: diccionario.nombre || "",
-      image: diccionario.imagen || 'sin_imagen',
+      imagen: diccionario.imagen || 'sin_imagen',
       x: diccionario.x || 100,
       y: diccionario.y || 100,
       scale_x: 1,
@@ -55,11 +64,7 @@ class Actores {
       }
     };
 
-
-
-
     entidad.contador = diccionario.contador;
-
 
     this.game.codigos[entidad.nombre] = {
       actualizar: diccionario.actualizar || function () {},
@@ -71,6 +76,7 @@ class Actores {
     }
 
     this.game.game_state.entidades.push(entidad);
+    return entidad;
   }
 
 }

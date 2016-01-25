@@ -19,6 +19,16 @@
 </style>
 
 <body>
+  <div class="">
+    <p>
+      <input id="slider" type="range" name="name" value=""/>
+      <button id="pauseButton"> Pausar </button>
+    </p>
+
+    <p>
+      <span id="value"></span>
+    </p>
+  </div>
 
   <pre id="result"></pre>
 
@@ -26,6 +36,43 @@
 
   <script type="text/javascript" src='js/escalado.js'></script>
 
+
+<script>
+  var slider = document.getElementById('slider');
+  var pauseButton = document.getElementById('pauseButton');
+  hideSlider();
+
+  function showSlider() {
+    slider.style.visibility = null;
+    slider.setAttribute('max', pilas.game_history.get_length() -1);
+    slider.value = pilas.game_history.get_length();
+
+    slider.onmousemove = function(value) {
+      pilas.restore(this.value);
+    };
+
+    slider.onchange = function(value) {
+      pilas.restore(this.value);
+    }
+  }
+
+  function hideSlider() {
+    slider.style.visibility = "hidden";
+  }
+
+  pauseButton.onclick = function() {
+    pilas.alternar_pausa();
+
+    if (pilas.pause_enabled) {
+      showSlider();
+      this.textContent = "Play";
+    } else {
+      hideSlider();
+      this.textContent = "Pause";
+    }
+  };
+
+</script>
 
 </body>
 

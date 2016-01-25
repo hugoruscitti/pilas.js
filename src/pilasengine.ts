@@ -8,7 +8,7 @@
 
 
 
-var timer = 0;
+var timer = 0
 
 
 
@@ -22,6 +22,7 @@ class Pilas {
   actores: Actores;
   opciones: OpcionesIniciar;
   fondos: Fondos;
+  utils: Utils;
 
   evento_inicia: any;
   _cuando_inicia_callback: any;
@@ -31,6 +32,7 @@ class Pilas {
 
   codigos: any;
   canvas: Phaser.Graphics;
+  id_elemento_html: string;
 
   constructor(id_elemento_html:string, opciones: OpcionesIniciar) {
 
@@ -42,6 +44,8 @@ class Pilas {
       update: this._actualizar.bind(this),
       render: this.render.bind(this)
     };
+
+    this.id_elemento_html = id_elemento_html;
 
     console.log(`%cpilasengine.js v${VERSION} | http://www.pilas-engine.com.ar`, "color: blue");
 
@@ -57,74 +61,11 @@ class Pilas {
     this.load_scripts();
     this.actores = new Actores(this);
     this.fondos = new Fondos(this);
+    this.utils = new Utils(this);
 
     this.evento_inicia = document.createEvent("Event");
   }
 
-
-  private _activar_redimensionado() {
-    var gameArea = document.getElementById("elementoCanvas");
-
-    gameArea.style.position = "absolute";
-    gameArea.style.left = "50%";
-    gameArea.style.top = "50%";
-
-    gameArea.style.width = "100%";
-    gameArea.style.height = "100%";
-
-
-    function resizeGame() {
-      var gameArea = document.getElementById("elementoCanvas");
-      var canvas:any = gameArea.children[0];
-      var widthToHeight = 4 / 3;
-      var newWidth = window.innerWidth;
-      var newHeight = window.innerHeight;
-
-      var newWidthToHeight = newWidth / newHeight;
-
-      if (newWidthToHeight > widthToHeight) {
-        newWidth = newHeight * widthToHeight;
-        gameArea.style.height = newHeight + "px";
-        gameArea.style.width = newWidth + "px";
-      } else {
-        newHeight = newWidth / widthToHeight;
-        gameArea.style.width = newWidth + "px";
-        gameArea.style.height = newHeight + "px";
-      }
-
-      gameArea.style.marginTop = (-newHeight / 2) + "px";
-      gameArea.style.marginLeft = (-newWidth / 2) + "px";
-
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
-    }
-
-    window.addEventListener("resize", resizeGame, false);
-
-    this._crear_estilo_de_canvas_redimensionado();
-
-    resizeGame();
-  }
-
-  private _crear_estilo_de_canvas_redimensionado() {
-
-    var style = document.createElement("style");
-    style.appendChild(document.createTextNode(""));
-    document.head.appendChild(style);
-
-    var sheet:any = style.sheet;
-    var selector = "canvas"; // TODO: AGREGAR ID DEL ELEMENTO
-    var rules = "width: 100% !important; height: 100% !important;";
-
-    if("insertRule" in sheet) {
-      sheet.insertRule(selector + "{" + rules + "}", 0);
-    } else {
-      if("addRule" in sheet) {
-        sheet.addRule(selector, rules, 0);
-      }
-    }
-
-  }
 
   cuando(nombre_evento: string, callback: CallBackEvento) {
     if (nombre_evento === "inicia") {
@@ -198,7 +139,7 @@ class Pilas {
     this.game.stage.disableVisibilityChange = false;
 
     if (this.opciones.redimensionar) {
-      this._activar_redimensionado();
+      this.utils.activar_redimensionado(this.id_elemento_html);
     }
   }
 
@@ -253,11 +194,20 @@ class Pilas {
       } else {
 
         if (entity["tiled"]) {
-          sprite = this.game.add.tileSprite(entity.x, entity.y, this.ancho*2, this.alto*2, entity.image);
+          sprite = this.game.add.tileSprite(entity.x, entity.y, this.ancho*2, this.alto*2, entity.imagen);
         } else {
-          sprite = this.game.add.sprite(entity.x, entity.y, entity.image);
-        }
+          console.log(entity);
+          console.log(entity.imagen);
 
+          if (entity.imagen.indexOf(":") > 0) {
+            var items = entity.imagen.split(":");
+            var galeria = items[0];
+            var imagen = items[1];
+            sprite = this.game.add.sprite(entity.x, entity.y, galeria, imagen);
+          } else {
+            sprite = this.game.add.sprite(entity.x, entity.y, entity.imagen);
+          }
+        }
 
         var sprite_id = this.add_sprite(sprite);
 
@@ -267,13 +217,7 @@ class Pilas {
         sprite.scale.set(entity.scale_x, entity.scale_y);
         sprite.anchor.setTo(entity.anchor_x, entity.anchor_y);
         sprite.angle = -entity.rotation;
-
-
-
       }
-
-
-
 
       if (!pause_enabled) {
 
@@ -289,7 +233,7 @@ class Pilas {
 
         // Actualiza las entidades.
         for (var name in entity.scripts) {
-          this.apply_script(entity, name, entity.scripts[name]);
+          this.aplicar_script(entity, name, entity.scripts[name]);
         }
       }
 
@@ -332,7 +276,7 @@ class Pilas {
     return this.game_state.entidades[index];
   }
 
-  private add_sprite(sprite:Phaser.Sprite) {
+  private add_sprite(sprite: Phaser.Sprite) {
     var id = this._crear_id();
 
     this.sprites.push({id: id, sprite: sprite});
@@ -357,15 +301,15 @@ class Pilas {
     throw new Error("No se encuentra el sprite con el ID " + id);
   }
 
-  private apply_script(entity:Entity, script_name:string, script_data:any) {
-    this.get_script_by_name(script_name)(entity, script_data);
+  private aplicar_script(entity:Entity, script_name:string, script_data:any) {
+    this.obtener_script_por_nombre(script_name)(entity, script_data);
   }
 
-  private get_script_by_name(script_name:string) {
+  private obtener_script_por_nombre(script_name:string) {
     return this.scripts[script_name];
   }
 
-  restore(step: number) {
+  restaurar(step: number) {
     var state = this.game_history.get_state_by_step(step);
     this.transition_to_step(state);
   }
@@ -376,7 +320,7 @@ class Pilas {
     });
   }
 
-  getActorProxy(id:number) {
+  private getActorProxy(id:number) {
     return new ActorProxy(this, id);
   }
 

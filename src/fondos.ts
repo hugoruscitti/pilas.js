@@ -9,7 +9,7 @@ class Fondos {
     var entity = {
       id: 12,
       nombre: "fondos/plano",
-      image: 'fondos/plano',
+      imagen: 'fondos/plano',
       x: x,
       y: y,
       tiled: true,

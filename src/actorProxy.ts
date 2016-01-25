@@ -12,6 +12,10 @@ class ActorProxy {
     this.data.x = value;
   }
 
+  public set y(value: number) {
+    this.data.y = value;
+  }
+
   public get data() {
     return this.game.obtener_entidad_por_id(this.id);
   }

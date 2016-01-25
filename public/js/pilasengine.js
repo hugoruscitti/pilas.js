@@ -10,6 +10,13 @@ var ActorProxy = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ActorProxy.prototype, "y", {
+        set: function (value) {
+            this.data.y = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ActorProxy.prototype, "data", {
         get: function () {
             return this.game.obtener_entidad_por_id(this.id);
@@ -38,7 +45,7 @@ var Actores = (function () {
         var entity = {
             id: 12,
             nombre: "sin_imagen",
-            image: 'sin_imagen',
+            imagen: 'sin_imagen',
             x: x,
             y: y,
             scale_x: 1,
@@ -56,11 +63,18 @@ var Actores = (function () {
         this.game.game_state.entidades.push(entity);
         return entity;
     };
+    Actores.prototype.Patito = function () {
+        var entidad = this.crear({
+            nombre: "patito",
+            imagen: "data:patito.png"
+        });
+        return new ActorProxy(this.game, entidad.id);
+    };
     Actores.prototype.crear = function (diccionario) {
         var entidad = {
             id: Math.ceil(Math.random() * 1000000000000),
             nombre: diccionario.nombre || "",
-            image: diccionario.imagen || 'sin_imagen',
+            imagen: diccionario.imagen || 'sin_imagen',
             x: diccionario.x || 100,
             y: diccionario.y || 100,
             scale_x: 1,
@@ -79,6 +93,7 @@ var Actores = (function () {
             throw new Error("Tienes que especificar le nombre de la entidad.");
         }
         this.game.game_state.entidades.push(entidad);
+        return entidad;
     };
     return Actores;
 })();
@@ -92,7 +107,7 @@ var Fondos = (function () {
         var entity = {
             id: 12,
             nombre: "fondos/plano",
-            image: 'fondos/plano',
+            imagen: 'fondos/plano',
             x: x,
             y: y,
             tiled: true,
@@ -154,6 +169,7 @@ var Pilas = (function () {
             update: this._actualizar.bind(this),
             render: this.render.bind(this)
         };
+        this.id_elemento_html = id_elemento_html;
         console.log("%cpilasengine.js v" + VERSION + " | http://www.pilas-engine.com.ar", "color: blue");
         this.codigos = {};
         this.opciones = opciones;
@@ -165,57 +181,9 @@ var Pilas = (function () {
         this.load_scripts();
         this.actores = new Actores(this);
         this.fondos = new Fondos(this);
+        this.utils = new Utils(this);
         this.evento_inicia = document.createEvent("Event");
     }
-    Pilas.prototype._activar_redimensionado = function () {
-        var gameArea = document.getElementById("elementoCanvas");
-        gameArea.style.position = "absolute";
-        gameArea.style.left = "50%";
-        gameArea.style.top = "50%";
-        gameArea.style.width = "100%";
-        gameArea.style.height = "100%";
-        function resizeGame() {
-            var gameArea = document.getElementById("elementoCanvas");
-            var canvas = gameArea.children[0];
-            var widthToHeight = 4 / 3;
-            var newWidth = window.innerWidth;
-            var newHeight = window.innerHeight;
-            var newWidthToHeight = newWidth / newHeight;
-            if (newWidthToHeight > widthToHeight) {
-                newWidth = newHeight * widthToHeight;
-                gameArea.style.height = newHeight + "px";
-                gameArea.style.width = newWidth + "px";
-            }
-            else {
-                newHeight = newWidth / widthToHeight;
-                gameArea.style.width = newWidth + "px";
-                gameArea.style.height = newHeight + "px";
-            }
-            gameArea.style.marginTop = (-newHeight / 2) + "px";
-            gameArea.style.marginLeft = (-newWidth / 2) + "px";
-            canvas.style.width = "100%";
-            canvas.style.height = "100%";
-        }
-        window.addEventListener("resize", resizeGame, false);
-        this._crear_estilo_de_canvas_redimensionado();
-        resizeGame();
-    };
-    Pilas.prototype._crear_estilo_de_canvas_redimensionado = function () {
-        var style = document.createElement("style");
-        style.appendChild(document.createTextNode(""));
-        document.head.appendChild(style);
-        var sheet = style.sheet;
-        var selector = "canvas"; // TODO: AGREGAR ID DEL ELEMENTO
-        var rules = "width: 100% !important; height: 100% !important;";
-        if ("insertRule" in sheet) {
-            sheet.insertRule(selector + "{" + rules + "}", 0);
-        }
-        else {
-            if ("addRule" in sheet) {
-                sheet.addRule(selector, rules, 0);
-            }
-        }
-    };
     Pilas.prototype.cuando = function (nombre_evento, callback) {
         if (nombre_evento === "inicia") {
             this._cuando_inicia_callback = callback;
@@ -274,7 +242,7 @@ var Pilas = (function () {
         this.cargar_imagen_atlas("data", "sprites.png", "sprites.json");
         this.game.stage.disableVisibilityChange = false;
         if (this.opciones.redimensionar) {
-            this._activar_redimensionado();
+            this.utils.activar_redimensionado(this.id_elemento_html);
         }
     };
     Pilas.prototype.create = function () {
@@ -319,10 +287,20 @@ var Pilas = (function () {
             }
             else {
                 if (entity["tiled"]) {
-                    sprite = _this.game.add.tileSprite(entity.x, entity.y, _this.ancho * 2, _this.alto * 2, entity.image);
+                    sprite = _this.game.add.tileSprite(entity.x, entity.y, _this.ancho * 2, _this.alto * 2, entity.imagen);
                 }
                 else {
-                    sprite = _this.game.add.sprite(entity.x, entity.y, entity.image);
+                    console.log(entity);
+                    console.log(entity.imagen);
+                    if (entity.imagen.indexOf(":") > 0) {
+                        var items = entity.imagen.split(":");
+                        var galeria = items[0];
+                        var imagen = items[1];
+                        sprite = _this.game.add.sprite(entity.x, entity.y, galeria, imagen);
+                    }
+                    else {
+                        sprite = _this.game.add.sprite(entity.x, entity.y, entity.imagen);
+                    }
                 }
                 var sprite_id = _this.add_sprite(sprite);
                 entity.sprite_id = sprite_id;
@@ -344,7 +322,7 @@ var Pilas = (function () {
                 }
                 // Actualiza las entidades.
                 for (var name in entity.scripts) {
-                    _this.apply_script(entity, name, entity.scripts[name]);
+                    _this.aplicar_script(entity, name, entity.scripts[name]);
                 }
             }
         });
@@ -380,13 +358,13 @@ var Pilas = (function () {
         }
         throw new Error("No se encuentra el sprite con el ID " + id);
     };
-    Pilas.prototype.apply_script = function (entity, script_name, script_data) {
-        this.get_script_by_name(script_name)(entity, script_data);
+    Pilas.prototype.aplicar_script = function (entity, script_name, script_data) {
+        this.obtener_script_por_nombre(script_name)(entity, script_data);
     };
-    Pilas.prototype.get_script_by_name = function (script_name) {
+    Pilas.prototype.obtener_script_por_nombre = function (script_name) {
         return this.scripts[script_name];
     };
-    Pilas.prototype.restore = function (step) {
+    Pilas.prototype.restaurar = function (step) {
         var state = this.game_history.get_state_by_step(step);
         this.transition_to_step(state);
     };
@@ -424,11 +402,59 @@ var pilasengine = {
         return new Pilas(element_id, opciones);
     }
 };
-var Utils;
-(function (Utils) {
-    function test() {
-        console.log('test');
+var Utils = (function () {
+    function Utils(pilas) {
+        this.pilas = pilas;
     }
-    Utils.test = test;
-})(Utils || (Utils = {}));
+    Utils.prototype.activar_redimensionado = function (id_elemento_html) {
+        var gameArea = document.getElementById(id_elemento_html);
+        gameArea.style.position = "absolute";
+        gameArea.style.left = "50%";
+        gameArea.style.top = "50%";
+        gameArea.style.width = "100%";
+        gameArea.style.height = "100%";
+        function resizeGame() {
+            var gameArea = document.getElementById(id_elemento_html);
+            var canvas = gameArea.children[0];
+            var widthToHeight = 4 / 3;
+            var newWidth = window.innerWidth;
+            var newHeight = window.innerHeight;
+            var newWidthToHeight = newWidth / newHeight;
+            if (newWidthToHeight > widthToHeight) {
+                newWidth = newHeight * widthToHeight;
+                gameArea.style.height = newHeight + "px";
+                gameArea.style.width = newWidth + "px";
+            }
+            else {
+                newHeight = newWidth / widthToHeight;
+                gameArea.style.width = newWidth + "px";
+                gameArea.style.height = newHeight + "px";
+            }
+            gameArea.style.marginTop = (-newHeight / 2) + "px";
+            gameArea.style.marginLeft = (-newWidth / 2) + "px";
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+        }
+        window.addEventListener("resize", resizeGame, false);
+        this._crear_estilo_de_canvas_redimensionado();
+        resizeGame();
+    };
+    Utils.prototype._crear_estilo_de_canvas_redimensionado = function () {
+        var style = document.createElement("style");
+        style.appendChild(document.createTextNode(""));
+        document.head.appendChild(style);
+        var sheet = style.sheet;
+        var selector = "canvas"; // TODO: AGREGAR ID DEL ELEMENTO
+        var rules = "width: 100% !important; height: 100% !important;";
+        if ("insertRule" in sheet) {
+            sheet.insertRule(selector + "{" + rules + "}", 0);
+        }
+        else {
+            if ("addRule" in sheet) {
+                sheet.addRule(selector, rules, 0);
+            }
+        }
+    };
+    return Utils;
+})();
 var VERSION = "0.0.2";
